@@ -31,7 +31,8 @@
     "eslint-plugin-react-hooks": "^4.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "sequelize-cli": "^6.1.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
