@@ -4,8 +4,7 @@
     "password": "root",
     "database": "airbnb",
     "host": "localhost",
-    "dialect": "postgres",
-    "port": "8000"
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",
