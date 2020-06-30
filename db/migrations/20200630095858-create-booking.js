@@ -4,12 +4,12 @@ module.exports = {
     await queryInterface.createTable('Bookings', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       place_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           allowNull: false,
           model: {
@@ -19,7 +19,7 @@ module.exports = {
         },
       },
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           allowNull: false,
           model: {
@@ -37,10 +37,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },
