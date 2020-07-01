@@ -1,10 +1,13 @@
 const express = require('express');
-const indexController = require('../controllers/indexController');
+const bodyParser = require("body-parser");
 
 const router = express.Router();
+const usersRouter = require('./users')
+
+router.use(bodyParser.json());
+router.use(usersRouter);
 
 router.get('/', (req, res) => {
-//   const data = await indexController.getIndex;
   res.status(200).json({ message: 'Hello World!' });
 });
 

@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const db = require('../models');
 
@@ -9,14 +9,14 @@ module.exports = {
     const { role, first_name, last_name, email, password } = data;
     const newUser = await User.create(
       {
-        id: uuid(),
+        id: uuidv4(),
         role,
         first_name,
         last_name,
         email,
         password,
       },
-      { attributes: ['id', 'role', 'first_name', 'last_name', 'email', 'password'] }
+      { attributes: ['role', 'first_name', 'last_name', 'email'] }
     );
     return newUser;
   },
