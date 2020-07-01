@@ -1,16 +1,27 @@
 const express = require('express');
-const router = express.Router();
+const _ = require('lodash');
+
 const usersController = require('../controllers/users');
-const validators = require('../middlewares/validators/users');
-const wrapAsync = require('../middlewares/wrapAsync');
 
-router.post(
-  '/signup',
-  wrapAsync(async (req, res, next) => {
-    const { first_name } = req.body;
+const router = express.Router();
 
-    validators.firstName(first_name, res);
+router.post('/signup', async (req, res) => {
+  const { first_name: firstName, email } = req.body;
 
+  if (firstName === null || firstName === undefined || firstName === '') {
+    return res.status(400).json({
+      error: "Le champ first_name n'est pas renseigné",
+    });
+  }
+
+  if (typeof firstName !== 'string') {
+    return res.status(400).json({
+      error: 'Le champ first_name doit être une chaîne de caractères',
+    });
+  }
+
+  const search = await usersController.searchByEmail(email);
+  if (search === null) {
     const newUser = await usersController.addUser(req.body);
 
     res.status(201).json({
@@ -21,7 +32,11 @@ router.post(
         email: newUser.email,
       },
     });
-  })
-);
+  } else {
+    return res.status(409).json({
+      error: 'Un utilisateur utilisant cette adresse email est déjà enregistré',
+    });
+  }
+});
 
 module.exports = router;

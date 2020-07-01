@@ -1,8 +1,8 @@
 const express = require('express');
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
 const router = express.Router();
-const usersRouter = require('./users')
+const usersRouter = require('./users');
 
 router.use(bodyParser.json());
 router.use(usersRouter);
@@ -12,9 +12,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('*', (req, res) => {
-    res.status(404).json({
-        error: 'Vous vous êtes trompés !'
-    });
+  res.status(404).json({
+    error: 'Vous vous êtes trompés !',
+  });
 });
 
 module.exports = router;
