@@ -22,7 +22,7 @@ module.exports = {
     return newUser;
   },
 
-  searchByEmail: async (email) => {
+  checkEmail: async (email) => {
     const userFound = await User.findOne({
       attributes: ['email'],
       where: {
@@ -32,19 +32,17 @@ module.exports = {
     return userFound;
   },
 
-  login: async (email, password) => {
+  getUserByEmail: async (email) => {
     const userFound = await User.findOne({
       where: {
         email: email,
       },
     });
+    return userFound;
+  },
+  checkPassword: async (password, userPassword) => {
+    const passwordMatched = await bcrypt.compare(password, userPassword);
 
-    if (userFound) {
-      const passwordMatched = await bcrypt.compare(password, userFound.password);
-
-      if (passwordMatched) {
-        return userFound;
-      }
-    }
+    return passwordMatched;
   },
 };
