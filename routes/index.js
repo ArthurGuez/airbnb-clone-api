@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const usersRouter = require('./users');
 
+// router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(usersRouter);
 

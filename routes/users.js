@@ -20,8 +20,8 @@ router.post('/signup', async (req, res) => {
     });
   }
 
-  const search = await usersController.searchByEmail(email);
-  if (search === null) {
+  const userFound = await usersController.searchByEmail(email);
+  if (userFound === null) {
     const newUser = await usersController.addUser(req.body);
 
     res.status(201).json({
@@ -38,5 +38,7 @@ router.post('/signup', async (req, res) => {
     });
   }
 });
+
+// router.post('/login', async (req, res) => {});
 
 module.exports = router;
