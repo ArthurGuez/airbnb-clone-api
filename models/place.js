@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
           name: 'city_id',
         },
       });
-      this.hasMany(models.Booking);
     }
   }
   Place.init(
