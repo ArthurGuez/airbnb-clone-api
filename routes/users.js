@@ -2,6 +2,7 @@ const express = require('express');
 const _ = require('lodash');
 
 const usersController = require('../controllers/users');
+const jwtUtils = require('../utils/jwt.utils');
 
 const router = express.Router();
 
@@ -39,6 +40,25 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// router.post('/login', async (req, res) => {});
+router.post('/signin', async (req, res) => {
+  const { email, password } = req.body;
+
+  const userIdentified = await usersController.login(email, password);
+  if (userIdentified) {
+    res.status(200).json({
+      token: jwtUtils.genToken(userIdentified),
+      user: {
+        role: userIdentified.role,
+        first_name: userIdentified.first_name,
+        last_name: userIdentified.last_name,
+        email: userIdentified.email,
+      },
+    });
+  } else {
+    return res.status(401).json({
+      error: "Votre mot de passe n'est pas correct",
+    });
+  }
+});
 
 module.exports = router;
