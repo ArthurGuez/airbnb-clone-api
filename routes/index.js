@@ -3,10 +3,12 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 const usersRouter = require('./users');
+const placesRouter = require('./places');
 
 // router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(usersRouter);
+router.use(placesRouter);
 
 router.get('/', (req, res) => {
   res.status(200).json({ message: 'Hello World!' });

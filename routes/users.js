@@ -1,5 +1,4 @@
 const express = require('express');
-const _ = require('lodash');
 
 const usersController = require('../controllers/users');
 const jwtUtils = require('../utils/jwt.utils');

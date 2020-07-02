@@ -41,7 +41,7 @@ module.exports = {
     return userFound;
   },
   checkPassword: async (password, userPassword) => {
-    const passwordMatched = await bcrypt.compare(password, userPassword);
+    const passwordMatched = await bcrypt.compare(password, userFound.password);
 
     return passwordMatched;
   },

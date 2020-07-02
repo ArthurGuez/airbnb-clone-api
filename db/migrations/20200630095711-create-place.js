@@ -9,7 +9,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       city_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           allowNull: false,
           model: {
