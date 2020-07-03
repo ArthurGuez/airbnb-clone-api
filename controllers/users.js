@@ -40,8 +40,9 @@ module.exports = {
     });
     return userFound;
   },
+
   checkPassword: async (password, userPassword) => {
-    const passwordMatched = await bcrypt.compare(password, userPassword.password);
+    const passwordMatched = await bcrypt.compare(password, userPassword);
 
     return passwordMatched;
   },
