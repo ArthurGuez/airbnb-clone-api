@@ -10,4 +10,11 @@ module.exports = {
     });
     return citiesFound;
   },
+
+  getCityById: async (id) => {
+    const cityFound = await City.findByPk(id, {
+      attributes: ['name'],
+    });
+    return cityFound;
+  },
 };

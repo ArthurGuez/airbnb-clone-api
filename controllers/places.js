@@ -8,6 +8,7 @@ module.exports = {
   addPlace: async (data) => {
     const {
       city_id: cityId,
+      user_id: userId,
       name,
       description,
       rooms,
@@ -19,6 +20,7 @@ module.exports = {
     const newPlace = await Place.create({
       id: uuidv4(),
       city_id: cityId,
+      user_id: userId,
       name,
       description,
       rooms,
