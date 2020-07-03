@@ -11,7 +11,7 @@ module.exports = {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({
+    return User.create({
       id: uuidv4(),
       role,
       first_name: firstName,
@@ -19,31 +19,26 @@ module.exports = {
       email,
       password: hashedPassword,
     });
-    return newUser;
   },
 
-  checkEmail: async (email) => {
-    const userFound = await User.findOne({
+  checkEmail: (email) => {
+    return User.findOne({
       attributes: ['email'],
       where: {
         email: email,
       },
     });
-    return userFound;
   },
 
-  getUserByEmail: async (email) => {
-    const userFound = await User.findOne({
+  getUserByEmail: (email) => {
+    return User.findOne({
       where: {
         email: email,
       },
     });
-    return userFound;
   },
 
-  checkPassword: async (password, userPassword) => {
-    const passwordMatched = await bcrypt.compare(password, userPassword);
-
-    return passwordMatched;
+  checkPassword: (password, userPassword) => {
+    return bcrypt.compare(password, userPassword);
   },
 };

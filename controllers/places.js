@@ -3,7 +3,7 @@ const db = require('../models');
 const { Place } = db;
 
 module.exports = {
-  addPlace: async (data) => {
+  addPlace: (data) => {
     const {
       city_id: cityId,
       user_id: userId,
@@ -15,7 +15,7 @@ module.exports = {
       price_by_night: priceByNight,
     } = data;
 
-    const newPlace = await Place.create({
+    return Place.create({
       city_id: cityId,
       user_id: userId,
       name,
@@ -25,7 +25,6 @@ module.exports = {
       max_guests: maxGuests,
       price_by_night: priceByNight,
     });
-    return newPlace;
   },
 
   getPlaceById: (placeId) => {
