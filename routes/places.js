@@ -6,6 +6,16 @@ const jwtUtils = require('../utils/jwt.utils');
 
 const router = express.Router();
 
+router.get('/places', async (req, res) => {
+  const placesFound = await placesController.getAllPlaces();
+  // const cityFound = await citiesController.getCityById(placesFound.city_id);
+  res.status(200).json(
+    placesFound.map((placeFound) => {
+      return placeFound.rooms;
+    })
+  );
+});
+
 router.get('/places/:placeId', async (req, res) => {
   const placeFound = await placesController.getPlaceById(req.params.placeId);
 

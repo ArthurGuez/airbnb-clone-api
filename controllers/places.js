@@ -28,8 +28,11 @@ module.exports = {
     return newPlace;
   },
 
-  getPlaceById: async (placeId) => {
-    const placeFound = await Place.findByPk(placeId);
-    return placeFound;
+  getPlaceById: (placeId) => {
+    return Place.findByPk(placeId);
+  },
+
+  getAllPlaces: () => {
+    return Place.findAll();
   },
 };
