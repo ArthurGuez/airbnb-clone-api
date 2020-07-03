@@ -1,5 +1,3 @@
-const { v4: uuidv4 } = require('uuid');
-
 const db = require('../models');
 
 const { Place } = db;
@@ -18,7 +16,6 @@ module.exports = {
     } = data;
 
     const newPlace = await Place.create({
-      id: uuidv4(),
       city_id: cityId,
       user_id: userId,
       name,
@@ -29,5 +26,10 @@ module.exports = {
       price_by_night: priceByNight,
     });
     return newPlace;
+  },
+
+  getPlaceById: async (placeId) => {
+    const placeFound = await Place.findByPk(placeId);
+    return placeFound;
   },
 };

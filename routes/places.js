@@ -6,6 +6,28 @@ const jwtUtils = require('../utils/jwt.utils');
 
 const router = express.Router();
 
+router.get('/places/:placeId', async (req, res) => {
+  const placeFound = await placesController.getPlaceById(req.params.placeId);
+
+  if (placeFound) {
+    const cityFound = await citiesController.getCityById(placeFound.city_id);
+    res.status(200).json({
+      id: placeFound.id,
+      city: cityFound.name,
+      name: placeFound.name,
+      description: placeFound.description,
+      rooms: placeFound.rooms,
+      bathrooms: placeFound.bathrooms,
+      max_guests: placeFound.max_guests,
+      price_by_night: placeFound.price_by_night,
+    });
+  } else {
+    return res.status(404).json({
+      error: "La ressource demandée n'existe pas",
+    });
+  }
+});
+
 router.post('/places', async (req, res) => {
   const headerAuth = req.headers.authorization;
   const userRole = await jwtUtils.getUserRole(headerAuth);
