@@ -79,4 +79,32 @@ router.post('/places', async (req, res) => {
   }
 });
 
+router.patch('/places/:placeId', async (req, res) => {
+  const headerAuth = req.headers.authorization;
+  const userRole = await jwtUtils.getUserRole(headerAuth);
+
+  if (userRole === 'host') {
+    const placeUpdated = await placesController.updatePlace(req.body);
+
+    res.status(200).json({
+      id: placeUpdated.id,
+      city: placeUpdated.city,
+      name: placeUpdated.name,
+      description: placeUpdated.description,
+      rooms: placeUpdated.rooms,
+      bathrooms: placeUpdated.bathrooms,
+      max_guests: placeUpdated.max_guests,
+      price_by_night: placeUpdated.price_by_night,
+    });
+  } else if (userRole === 'tourist') {
+    return res.status(403).json({
+      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+    });
+  } else {
+    return res.status(401).json({
+      message: 'Vous devez être connecté pour accéder à cette ressource',
+    });
+  }
+});
+
 module.exports = router;

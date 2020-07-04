@@ -27,6 +27,8 @@ module.exports = {
     });
   },
 
+  updatePlace: () => {},
+
   getPlaceById: (placeId) => {
     return Place.findByPk(placeId);
   },
