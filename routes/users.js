@@ -45,6 +45,9 @@ router.post('/signin', async (req, res) => {
   const userFound = await usersController.getUserByEmail(email);
 
   if (userFound) {
+    console.log('userFound.password : ', userFound.password);
+    console.log('password : ', password);
+
     const userIdentified = await usersController.checkPassword(password, userFound.password);
     if (userIdentified) {
       res.status(200).json({

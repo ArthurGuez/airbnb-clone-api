@@ -1,10 +1,11 @@
 const express = require('express');
 
+const authMid = require('../utils/jwt.utils');
 const bookingsController = require('../controllers/bookings');
 
 const router = express.Router();
 
-router.post('/bookings', async (req, res) => {
+router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   const { place_id: placeId, check_in: checkIn, check_out: checkOut } = req.body;
 
   // 400 - Le champ place_id n'est pas renseigné
