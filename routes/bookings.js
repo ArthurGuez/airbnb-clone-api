@@ -5,14 +5,16 @@ const bookingsController = require('../controllers/bookings');
 const router = express.Router();
 
 router.post('/bookings', async (req, res) => {
-  const { place_id: placeId, check_in: checkIn } = req.body;
+  const { place_id: placeId, check_in: checkIn, check_out: checkOut } = req.body;
 
+  // 400 - Le champ place_id n'est pas renseigné
   if (placeId === null || placeId === undefined || placeId === '') {
     return res.status(400).json({
       error: "Le champ place_id n'est pas renseigné",
     });
   }
 
+  // 400 - Le champ check_in doit être une chaîne de caractère correspondant à une date au format ISO 8601 sur le fuseau horaire UTC
   if (Date.parse(checkIn).toString() === 'NaN') {
     return res.status(400).json({
       error:
@@ -20,12 +22,11 @@ router.post('/bookings', async (req, res) => {
     });
   }
 
-  const dateParsed = new Date(Date.parse(checkIn));
+  const checkInParsed = new Date(Date.parse(checkIn));
 
-  // https://stackoverflow.com/questions/52869695/check-if-a-date-string-is-in-iso-and-utc-format
   if (
-    dateParsed.toISOString() !== checkIn ||
-    dateParsed.toUTCString() !== new Date(checkIn).toUTCString()
+    checkInParsed.toISOString() !== checkIn ||
+    checkInParsed.toUTCString() !== new Date(checkIn).toUTCString()
   ) {
     return res.status(400).json({
       error:
@@ -33,6 +34,27 @@ router.post('/bookings', async (req, res) => {
     });
   }
 
+  // 400 - Le champ check_out doit être une chaîne de caractère correspondant à une date au format ISO 8601 sur le fuseau horaire UTC
+  if (Date.parse(checkOut).toString() === 'NaN') {
+    return res.status(400).json({
+      error:
+        'Le champ check_out doit être une chaîne de caractère correspondant à une date au format ISO 8601 sur le fuseau horaire UTC',
+    });
+  }
+
+  const checkOutParsed = new Date(Date.parse(checkOut));
+
+  if (
+    checkOutParsed.toISOString() !== checkOut ||
+    checkOutParsed.toUTCString() !== new Date(checkOut).toUTCString()
+  ) {
+    return res.status(400).json({
+      error:
+        'Le champ check_out doit être une chaîne de caractère correspondant à une date au format ISO 8601 sur le fuseau horaire UTC',
+    });
+  }
+
+  // 201 - La requête est un succès (nouvelle donnée créée en base)
   const newBooking = await bookingsController.addBooking(req.body);
 
   res.status(201).json({
