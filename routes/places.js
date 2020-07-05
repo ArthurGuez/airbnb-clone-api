@@ -8,10 +8,9 @@ const router = express.Router();
 
 router.get('/places', async (req, res) => {
   const placesFound = await placesController.getAllPlaces();
-  // const cityFound = await citiesController.getCityById(placesFound.city_id);
+
   res.status(200).json(
     placesFound.map((placeFound) => {
-      console.log(placeFound.City.name);
       return placeFound;
     })
   );
@@ -19,12 +18,10 @@ router.get('/places', async (req, res) => {
 
 router.get('/places/:placeId', async (req, res) => {
   const placeFound = await placesController.getPlaceById(req.params.placeId);
-
   if (placeFound) {
-    const cityFound = await citiesController.getCityById(placeFound.city_id);
     res.status(200).json({
       id: placeFound.id,
-      city: cityFound.name,
+      city: placeFound.City.name,
       name: placeFound.name,
       description: placeFound.description,
       rooms: placeFound.rooms,
@@ -85,7 +82,7 @@ router.patch('/places/:placeId', async (req, res) => {
   const userRole = await jwtUtils.getUserRole(headerAuth);
 
   if (userRole === 'host') {
-    const placeUpdated = await placesController.updatePlace(req.body);
+    const placeUpdated = await placesController.updatePlace(req.body, req.params.id);
 
     res.status(200).json({
       id: placeUpdated.id,

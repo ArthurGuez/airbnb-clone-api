@@ -27,10 +27,37 @@ module.exports = {
     });
   },
 
-  updatePlace: () => {},
+  updatePlace: async (data, placeId) => {
+    const {
+      name,
+      description,
+      rooms,
+      bathrooms,
+      max_guests: maxGuests,
+      price_by_night: priceByNight,
+    } = data;
+
+    const placeFound = await Place.findByPk(placeId);
+
+    return Place.update({
+      name,
+      description,
+      rooms,
+      bathrooms,
+      max_guests: maxGuests,
+      price_by_night: priceByNight,
+    });
+  },
 
   getPlaceById: (placeId) => {
-    return Place.findByPk(placeId);
+    return Place.findByPk(placeId, {
+      include: [
+        {
+          model: City,
+          attributes: ['name'],
+        },
+      ],
+    });
   },
 
   getAllPlaces: () => {
@@ -40,6 +67,16 @@ module.exports = {
           model: City,
           attributes: ['name'],
         },
+      ],
+      raw: true,
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'rooms',
+        'bathrooms',
+        'max_guests',
+        'price_by_night',
       ],
     });
   },
