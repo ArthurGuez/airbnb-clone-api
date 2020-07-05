@@ -11,7 +11,8 @@ router.get('/places', async (req, res) => {
   // const cityFound = await citiesController.getCityById(placesFound.city_id);
   res.status(200).json(
     placesFound.map((placeFound) => {
-      return placeFound.rooms;
+      console.log(placeFound.City.name);
+      return placeFound;
     })
   );
 });

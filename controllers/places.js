@@ -1,6 +1,6 @@
 const db = require('../models');
 
-const { Place } = db;
+const { Place, City } = db;
 
 module.exports = {
   addPlace: (data) => {
@@ -34,6 +34,13 @@ module.exports = {
   },
 
   getAllPlaces: () => {
-    return Place.findAll();
+    return Place.findAll({
+      include: [
+        {
+          model: City,
+          attributes: ['name'],
+        },
+      ],
+    });
   },
 };
