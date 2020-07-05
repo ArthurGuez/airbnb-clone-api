@@ -2,6 +2,7 @@ const express = require('express');
 
 const authMid = require('../utils/jwt.utils');
 const bookingsController = require('../controllers/bookings');
+const placesController = require('../controllers/places');
 
 const router = express.Router();
 
@@ -69,19 +70,19 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   console.log('req.body', req.body);
 
   res.status(201).json({
-    data: {
-      id: newBooking.id,
-      place_id: newBooking.place_id,
-      check_in: newBooking.check_in,
-      check_out: newBooking.check_out,
-    },
+    id: newBooking.id,
+    place_id: newBooking.place_id,
+    check_in: newBooking.check_in,
+    check_out: newBooking.check_out,
   });
 });
 
 router.get('/bookings', authMid.authenticateJWT, async (req, res) => {
-  const bookingsFound = await bookingsController.getBookings();
+  const bookingsFound = await bookingsController.getBookings(req);
 
-  res.status(201).json(bookingsFound);
+  res.status(201).json({
+    bookingsFound,
+  });
 });
 
 module.exports = router;

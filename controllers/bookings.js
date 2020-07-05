@@ -1,8 +1,10 @@
 const { v4: uuidv4 } = require('uuid');
 
 const db = require('../models');
+const { getCityById } = require('./cities');
 
-const { Booking } = db;
+const { Booking, Place, City } = db;
+//const Place = db.place;
 
 module.exports = {
   addBooking: async (request) => {
@@ -19,10 +21,29 @@ module.exports = {
     return newBooking;
   },
 
-  getBookings: async () => {
+  getBookings: async (request) => {
+    const { userId } = request.user;
     const bookingsFound = await Booking.findAll({
-      attributes: ['id', 'place_id', 'user_id', 'check_in', 'check_out'],
-      order: [['id', 'ASC']],
+      attributes: ['id', 'check_in', 'check_out'],
+      where: {
+        user_id: userId,
+      },
+      include: [
+        {
+          model: Place,
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'rooms',
+            'bathrooms',
+            'max_guests',
+            'price_by_night',
+          ],
+          include: [{ model: City, attributes: ['name'] }],
+        },
+      ],
+      order: [['check_in', 'DESC']],
     });
 
     return bookingsFound;

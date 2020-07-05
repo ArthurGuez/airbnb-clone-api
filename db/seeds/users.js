@@ -18,5 +18,14 @@ module.exports = () => {
       email: 'my@vo.com',
       password: 'azerty',
     },
+    {
+      id: uuidv4(),
+      role: 'tourist',
+      first_name: 'Arthur',
+      last_name: 'Guez',
+      email: 'arthur@guez.com',
+      password: 'azerty',
+    },
+  ];
   ];
 };
