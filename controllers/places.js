@@ -38,6 +38,7 @@ module.exports = {
     } = data;
 
     const placeFound = await Place.findByPk(placeId);
+    placeFound.updateAttributes();
 
     return Place.update({
       name,
