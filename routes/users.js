@@ -45,18 +45,15 @@ router.post('/signin', async (req, res) => {
   const userFound = await usersController.getUserByEmail(email);
 
   if (userFound) {
-    console.log('userFound.password : ', userFound.password);
-    console.log('password : ', password);
-
-    const userIdentified = await usersController.checkPassword(password, userFound.password);
-    if (userIdentified) {
+    const isIdentified = await usersController.checkPassword(password, userFound.password);
+    if (isIdentified) {
       res.status(200).json({
-        token: jwtUtils.genToken(userIdentified),
+        token: jwtUtils.genToken(userFound),
         user: {
-          role: userIdentified.role,
-          first_name: userIdentified.first_name,
-          last_name: userIdentified.last_name,
-          email: userIdentified.email,
+          role: userFound.role,
+          first_name: userFound.first_name,
+          last_name: userFound.last_name,
+          email: userFound.email,
         },
       });
     } else {

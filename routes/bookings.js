@@ -6,6 +6,14 @@ const bookingsController = require('../controllers/bookings');
 const router = express.Router();
 
 router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
+  const { role } = req.user;
+
+  if (role === 'host') {
+    return res.status(403).json({
+      error: "Vous n'êtes pas autorisé à accéder à cette ressource",
+    });
+  }
+
   const { place_id: placeId, check_in: checkIn, check_out: checkOut } = req.body;
 
   // 400 - Le champ place_id n'est pas renseigné

@@ -7,6 +7,7 @@ module.exports = {
     return jwt.sign(
       {
         userId: userData.id,
+        role: userData.role,
       },
       JWT_SIGN_SECRET,
       {
@@ -23,10 +24,12 @@ module.exports = {
 
       jwt.verify(token, JWT_SIGN_SECRET, (err, user) => {
         if (err) {
+          console.log('non auth');
           return res.sendStatus(403);
         }
 
         req.user = user;
+
         next();
       });
     } else {
