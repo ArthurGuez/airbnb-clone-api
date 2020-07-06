@@ -9,11 +9,7 @@ const router = express.Router();
 router.get('/places', async (req, res) => {
   const placesFound = await placesController.getAllPlaces();
 
-  res.status(200).json(
-    placesFound.map((placeFound) => {
-      return placeFound;
-    })
-  );
+  res.status(200).json(placesFound);
 });
 
 router.get('/places/:placeId', async (req, res) => {
