@@ -2,14 +2,13 @@ const express = require('express');
 
 const authMid = require('../utils/jwt.utils');
 const bookingsController = require('../controllers/bookings');
-const placesController = require('../controllers/places');
 
 const router = express.Router();
 
 router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
-  const { role } = req.user;
+  const { userRole } = req.user;
 
-  if (role === 'host') {
+  if (userRole === 'host') {
     return res.status(403).json({
       error: "Vous n'êtes pas autorisé à accéder à cette ressource",
     });
@@ -67,8 +66,6 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   // 201 - La requête est un succès (nouvelle donnée créée en base)
   const newBooking = await bookingsController.addBooking(req);
 
-  console.log('req.body', req.body);
-
   res.status(201).json({
     id: newBooking.id,
     place_id: newBooking.place_id,
@@ -80,9 +77,7 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
 router.get('/bookings', authMid.authenticateJWT, async (req, res) => {
   const bookingsFound = await bookingsController.getBookings(req);
 
-  res.status(201).json({
-    bookingsFound,
-  });
+  res.status(201).json(bookingsFound);
 });
 
 module.exports = router;
