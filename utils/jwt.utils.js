@@ -16,7 +16,6 @@ module.exports = {
     );
   },
 
-
   authenticateJWT: (req, res, next) => {
     const authHeader = req.headers.authorization;
 
@@ -37,6 +36,8 @@ module.exports = {
       res.status(401).json({
         error: 'Vous devez être connecté pour accéder à cette ressource',
       });
+    }
+  },
 
   parseAuthorization: (authorization) => {
     return authorization != null ? authorization.replace('Bearer ', '') : null;

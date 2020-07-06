@@ -40,9 +40,15 @@ module.exports = {
             'max_guests',
             'price_by_night',
           ],
-          include: [{ model: City, attributes: ['name'] }],
+          include: [
+            {
+              model: City,
+              attributes: ['name'],
+            },
+          ],
         },
       ],
+      raw: true,
       order: [['check_in', 'DESC']],
     });
 
