@@ -1,0 +1,66 @@
+const { v4: uuidv4 } = require('uuid');
+
+module.exports = () => {
+  return [
+    {
+      id: uuidv4(),
+      city_id: 1,
+      name: 'Mon bel appart',
+      description: 'Un bel appart confortable au coeur de Paris',
+      rooms: 2,
+      bathrooms: 1,
+      max_guests: 3,
+      price_by_night: 59,
+    },
+    {
+      id: uuidv4(),
+      city_id: 2,
+      name: 'Mon bel appart',
+      description: 'Un bel appart confortable au coeur de Dijon',
+      rooms: 2,
+      bathrooms: 1,
+      max_guests: 3,
+      price_by_night: 59,
+    },
+    {
+      id: uuidv4(),
+      city_id: 3,
+      name: 'Mon bel appart',
+      description: 'Un bel appart confortable au coeur de Rennes',
+      rooms: 2,
+      bathrooms: 1,
+      max_guests: 3,
+      price_by_night: 59,
+    },
+    {
+      id: uuidv4(),
+      city_id: 4,
+      name: 'Mon bel appart',
+      description: 'Un bel appart confortable au coeur de Bordeaux',
+      rooms: 2,
+      bathrooms: 1,
+      max_guests: 3,
+      price_by_night: 59,
+    },
+    {
+      id: uuidv4(),
+      city_id: 5,
+      name: 'Mon bel appart',
+      description: 'Un bel appart confortable au coeur de Marseille',
+      rooms: 2,
+      bathrooms: 1,
+      max_guests: 3,
+      price_by_night: 59,
+    },
+    {
+      id: uuidv4(),
+      city_id: 6,
+      name: 'Mon bel appart',
+      description: 'Un bel appart confortable au coeur de Montpellier',
+      rooms: 2,
+      bathrooms: 1,
+      max_guests: 3,
+      price_by_night: 59,
+    },
+  ];
+};
