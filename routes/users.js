@@ -25,12 +25,10 @@ router.post('/signup', async (req, res) => {
     const newUser = await usersController.addUser(req.body);
 
     res.status(201).json({
-      data: {
-        role: newUser.role,
-        first_name: newUser.first_name,
-        last_name: newUser.last_name,
-        email: newUser.email,
-      },
+      role: newUser.role,
+      first_name: newUser.first_name,
+      last_name: newUser.last_name,
+      email: newUser.email,
     });
   } else {
     return res.status(409).json({
@@ -48,12 +46,12 @@ router.post('/signin', async (req, res) => {
     const userIdentified = await usersController.checkPassword(password, userFound.password);
     if (userIdentified) {
       res.status(200).json({
-        token: jwtUtils.genToken(userIdentified),
+        token: jwtUtils.genToken(userFound),
         user: {
-          role: userIdentified.role,
-          first_name: userIdentified.first_name,
-          last_name: userIdentified.last_name,
-          email: userIdentified.email,
+          role: userFound.role,
+          first_name: userFound.first_name,
+          last_name: userFound.last_name,
+          email: userFound.email,
         },
       });
     } else {
