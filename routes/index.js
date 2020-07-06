@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 
 router.get('*', (req, res) => {
   res.status(404).json({
-    error: 'Vous vous êtes trompés !',
+    error: 'Vous vous êtes trompé de route !',
   });
 });
 
