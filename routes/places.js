@@ -2,7 +2,7 @@ const express = require('express');
 
 const placesController = require('../controllers/places');
 const citiesController = require('../controllers/cities');
-const jwtUtils = require('../utils/jwt.utils');
+const authMid = require('../utils/jwt.utils');
 
 const router = express.Router();
 
@@ -32,52 +32,47 @@ router.get('/places/:placeId', async (req, res) => {
   }
 });
 
-router.post('/places', async (req, res) => {
-  const headerAuth = req.headers.authorization;
-  const userRole = await jwtUtils.getUserRole(headerAuth);
+router.post('/places', authMid.authenticateJWT, async (req, res) => {
+  const { userRole } = req.user;
   const { description, rooms } = req.body;
-
-  if (userRole === 'host') {
-    if (description === null || description === undefined || description === '') {
-      return res.status(400).json({
-        message: "Le champ description n'est pas renseigné",
-      });
-    }
-
-    if (typeof rooms !== 'number') {
-      return res.status(400).json({
-        message: 'Le champ rooms doit être un nombre entier',
-      });
-    }
-
-    const newPlace = await placesController.addPlace(req.body);
-    const cityFound = await citiesController.getCityById(req.body.city_id);
-    res.status(201).json({
-      id: newPlace.id,
-      city: cityFound.name,
-      name: newPlace.name,
-      description: newPlace.description,
-      rooms: newPlace.rooms,
-      bathrooms: newPlace.bathrooms,
-      max_guests: newPlace.max_guests,
-      price_by_night: newPlace.price_by_night,
-    });
-  } else if (userRole === 'tourist') {
+  if (userRole === 'tourist') {
     return res.status(403).json({
       message: "Vous n'êtes pas autorisé à accéder à cette ressource",
     });
-  } else {
-    return res.status(401).json({
-      message: 'Vous devez être connecté pour accéder à cette ressource',
+  }
+  if (description === null || description === undefined || description === '') {
+    return res.status(400).json({
+      message: "Le champ description n'est pas renseigné",
     });
   }
+
+  if (typeof rooms !== 'number') {
+    return res.status(400).json({
+      message: 'Le champ rooms doit être un nombre entier',
+    });
+  }
+  const newPlace = await placesController.addPlace(req.body);
+  const cityFound = await citiesController.getCityById(req.body.city_id);
+  res.status(201).json({
+    id: newPlace.id,
+    city: cityFound.name,
+    name: newPlace.name,
+    description: newPlace.description,
+    rooms: newPlace.rooms,
+    bathrooms: newPlace.bathrooms,
+    max_guests: newPlace.max_guests,
+    price_by_night: newPlace.price_by_night,
+  });
 });
 
-router.patch('/places/:placeId', async (req, res) => {
-  const headerAuth = req.headers.authorization;
-  const userRole = await jwtUtils.getUserRole(headerAuth);
+router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
+  const { userRole } = req.user;
 
-  if (userRole === 'host') {
+  if (userRole === 'tourist') {
+    res.status(403).json({
+      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+    });
+
     const placeUpdated = await placesController.updatePlace(req.body, req.params.id);
 
     res.status(200).json({
@@ -89,14 +84,6 @@ router.patch('/places/:placeId', async (req, res) => {
       bathrooms: placeUpdated.bathrooms,
       max_guests: placeUpdated.max_guests,
       price_by_night: placeUpdated.price_by_night,
-    });
-  } else if (userRole === 'tourist') {
-    return res.status(403).json({
-      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
-    });
-  } else {
-    return res.status(401).json({
-      message: 'Vous devez être connecté pour accéder à cette ressource',
     });
   }
 });
