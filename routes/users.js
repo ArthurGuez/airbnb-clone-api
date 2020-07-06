@@ -25,12 +25,10 @@ router.post('/signup', async (req, res) => {
     const newUser = await usersController.addUser(req.body);
 
     res.status(201).json({
-      data: {
-        role: newUser.role,
-        first_name: newUser.first_name,
-        last_name: newUser.last_name,
-        email: newUser.email,
-      },
+      role: newUser.role,
+      first_name: newUser.first_name,
+      last_name: newUser.last_name,
+      email: newUser.email,
     });
   } else {
     return res.status(409).json({

@@ -7,7 +7,7 @@ module.exports = {
     return jwt.sign(
       {
         userId: userData.id,
-        role: userData.role,
+        userRole: userData.role,
       },
       JWT_SIGN_SECRET,
       {
@@ -15,6 +15,7 @@ module.exports = {
       }
     );
   },
+
 
   authenticateJWT: (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -36,6 +37,20 @@ module.exports = {
       res.status(401).json({
         error: 'Vous devez être connecté pour accéder à cette ressource',
       });
+
+  parseAuthorization: (authorization) => {
+    return authorization != null ? authorization.replace('Bearer ', '') : null;
+  },
+
+  getUserRole: (authorization) => {
+    const token = module.exports.parseAuthorization(authorization);
+    if (token != null) {
+      try {
+        const jwtToken = jwt.verify(token, JWT_SIGN_SECRET);
+        if (jwtToken != null) {
+          return jwtToken.userRole;
+        }
+      } catch (err) {}
     }
   },
 };
