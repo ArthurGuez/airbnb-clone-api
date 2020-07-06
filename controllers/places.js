@@ -1,11 +1,9 @@
-const { v4: uuidv4 } = require('uuid');
-
 const db = require('../models');
 
-const { Place } = db;
+const { Place, City } = db;
 
 module.exports = {
-  addPlace: async (data) => {
+  addPlace: (data) => {
     const {
       city_id: cityId,
       user_id: userId,
@@ -17,8 +15,7 @@ module.exports = {
       price_by_night: priceByNight,
     } = data;
 
-    const newPlace = await Place.create({
-      id: uuidv4(),
+    return Place.create({
       city_id: cityId,
       user_id: userId,
       name,
@@ -28,6 +25,60 @@ module.exports = {
       max_guests: maxGuests,
       price_by_night: priceByNight,
     });
-    return newPlace;
+  },
+
+  updatePlace: async (data, placeId) => {
+    const {
+      name,
+      description,
+      rooms,
+      bathrooms,
+      max_guests: maxGuests,
+      price_by_night: priceByNight,
+    } = data;
+
+    const placeFound = await Place.findByPk(placeId);
+    placeFound.updateAttributes();
+
+    return Place.update({
+      name,
+      description,
+      rooms,
+      bathrooms,
+      max_guests: maxGuests,
+      price_by_night: priceByNight,
+    });
+  },
+
+  getPlaceById: (placeId) => {
+    return Place.findByPk(placeId, {
+      include: [
+        {
+          model: City,
+          attributes: ['name'],
+        },
+      ],
+    });
+  },
+
+  getAllPlaces: () => {
+    return Place.findAll({
+      include: [
+        {
+          model: City,
+          attributes: ['name'],
+        },
+      ],
+      raw: true,
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'rooms',
+        'bathrooms',
+        'max_guests',
+        'price_by_night',
+      ],
+    });
   },
 };
