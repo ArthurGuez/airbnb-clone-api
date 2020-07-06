@@ -43,8 +43,8 @@ router.post('/signin', async (req, res) => {
   const userFound = await usersController.getUserByEmail(email);
 
   if (userFound) {
-    const userIdentified = await usersController.checkPassword(password, userFound.password);
-    if (userIdentified) {
+    const isIdentified = await usersController.checkPassword(password, userFound.password);
+    if (isIdentified) {
       res.status(200).json({
         token: jwtUtils.genToken(userFound),
         user: {
