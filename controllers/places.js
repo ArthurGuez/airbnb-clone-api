@@ -28,26 +28,15 @@ module.exports = {
   },
 
   updatePlace: async (data, placeId) => {
-    const {
-      name,
-      description,
-      rooms,
-      bathrooms,
-      max_guests: maxGuests,
-      price_by_night: priceByNight,
-    } = data;
-
-    const placeFound = await Place.findByPk(placeId);
-    placeFound.updateAttributes();
-
-    return Place.update({
-      name,
-      description,
-      rooms,
-      bathrooms,
-      max_guests: maxGuests,
-      price_by_night: priceByNight,
+    const placeFound = await Place.findByPk(placeId, {
+      include: [
+        {
+          model: City,
+          attributes: ['name'],
+        },
+      ],
     });
+    return placeFound.update(data);
   },
 
   getPlaceById: (placeId) => {

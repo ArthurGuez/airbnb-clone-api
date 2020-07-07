@@ -67,25 +67,24 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
 
 router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   const { userRole } = req.user;
-
   if (userRole === 'tourist') {
     res.status(403).json({
       message: "Vous n'êtes pas autorisé à accéder à cette ressource",
     });
-
-    const placeUpdated = await placesController.updatePlace(req.body, req.params.id);
-
-    res.status(200).json({
-      id: placeUpdated.id,
-      city: placeUpdated.city,
-      name: placeUpdated.name,
-      description: placeUpdated.description,
-      rooms: placeUpdated.rooms,
-      bathrooms: placeUpdated.bathrooms,
-      max_guests: placeUpdated.max_guests,
-      price_by_night: placeUpdated.price_by_night,
-    });
   }
+
+  const placeUpdated = await placesController.updatePlace(req.body, req.params.placeId);
+
+  res.status(200).json({
+    id: placeUpdated.id,
+    city: placeUpdated.City.name,
+    name: placeUpdated.name,
+    description: placeUpdated.description,
+    rooms: placeUpdated.rooms,
+    bathrooms: placeUpdated.bathrooms,
+    max_guests: placeUpdated.max_guests,
+    price_by_night: placeUpdated.price_by_night,
+  });
 });
 
 module.exports = router;
