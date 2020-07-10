@@ -5,12 +5,8 @@ const router = require('./routes');
 
 const server = express();
 
+server.use(cors());
+
 server.use('/api', router);
-server.use(
-  cors({
-    origin: 'http://localhost/',
-    methods: ['GET', 'POST', 'PATCH'],
-  })
-);
 
 module.exports = server;
