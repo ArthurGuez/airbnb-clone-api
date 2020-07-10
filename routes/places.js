@@ -8,19 +8,7 @@ const router = express.Router();
 
 router.get('/places', async (req, res) => {
   const placesFound = await placesController.getAllPlaces();
-
-  const alteredPlacesFound = {
-    id: placesFound.id,
-    city: placesFound['City.name'],
-    name: placesFound.name,
-    description: placesFound.description,
-    rooms: placesFound.rooms,
-    bathrooms: placesFound.bathrooms,
-    max_guests: placesFound.max_guests,
-    price_by_night: placesFound.price_by_night,
-  };
-
-  res.status(200).json(alteredPlacesFound);
+  res.status(200).json(placesFound);
 });
 
 router.get('/places/:placeId', async (req, res) => {
