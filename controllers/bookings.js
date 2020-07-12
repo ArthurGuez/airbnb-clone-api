@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const db = require('../models');
 
-const { Booking, Place, City } = db;
+const { Booking, User, Place, City } = db;
 
 module.exports = {
   addBooking: async (request) => {
@@ -16,7 +16,36 @@ module.exports = {
       check_in: checkIn,
       check_out: checkOut,
     });
-    return newBooking;
+
+    const confirmedBooking = await Booking.findByPk(newBooking.id, {
+      attributes: ['id', 'check_in', 'check_out'],
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'first_name', 'last_name', 'email'],
+        },
+        {
+          model: Place,
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'rooms',
+            'bathrooms',
+            'max_guests',
+            'price_by_night',
+          ],
+          include: [
+            {
+              model: City,
+              attributes: ['name'],
+            },
+          ],
+        },
+      ],
+    });
+
+    return confirmedBooking;
   },
 
   getBookings: async (request) => {
@@ -27,6 +56,10 @@ module.exports = {
         user_id: userId,
       },
       include: [
+        {
+          model: User,
+          attributes: ['id', 'first_name', 'last_name', 'email'],
+        },
         {
           model: Place,
           attributes: [
