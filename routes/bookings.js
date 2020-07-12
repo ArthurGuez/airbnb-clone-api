@@ -66,12 +66,7 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   // 201 - La requête est un succès (nouvelle donnée créée en base)
   const newBooking = await bookingsController.addBooking(req);
 
-  res.status(201).json({
-    id: newBooking.id,
-    place_id: newBooking.place_id,
-    check_in: newBooking.check_in,
-    check_out: newBooking.check_out,
-  });
+  res.status(201).json(newBooking);
 });
 
 router.get('/bookings', authMid.authenticateJWT, async (req, res) => {
