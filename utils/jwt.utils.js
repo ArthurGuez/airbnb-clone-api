@@ -9,10 +9,10 @@ module.exports = {
         userId: userData.id,
         userRole: userData.role,
       },
-      JWT_SIGN_SECRET,
-      {
+      JWT_SIGN_SECRET
+      /* {
         expiresIn: '1h',
-      }
+      } */
     );
   },
 
