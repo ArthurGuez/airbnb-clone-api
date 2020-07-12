@@ -46,7 +46,6 @@ module.exports = {
           ],
         },
       ],
-      raw: true,
       order: [['check_in', 'DESC']],
     });
 
