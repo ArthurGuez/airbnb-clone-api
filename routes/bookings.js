@@ -70,11 +70,6 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   res.status(201).json(newBooking);
 });
 
-router.get('/bookings', authMid.authenticateJWT, async (req, res) => {
-  const bookingsFound = await bookingsController.getBookings(req);
-  res.status(201).json(bookingsFound);
-});
-
 router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
   const { id } = req.params;
 
@@ -97,6 +92,20 @@ router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
   // 204 - Si la requête est un succès (suppression de la donnée en base)
   await bookingsController.deleteBooking(id);
   res.status(204).json();
+});
+
+router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {
+  // GET /api/bookings?place_id={placeId}
+  if (req.query.place_id !== undefined) {
+    const bookingsFound = await bookingsController.getBookingsPlaceId(req.query.place_id);
+
+    res.status(201).json(bookingsFound);
+  } else {
+    // GET /api/bookings
+    const bookingsFound = await bookingsController.getBookings(req);
+
+    res.status(201).json(bookingsFound);
+  }
 });
 
 module.exports = router;
