@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Booking, {
         foreignKey: {
           name: 'place_id',
+          onDelete: 'cascade',
+          hooks: true,
         },
       });
     }
