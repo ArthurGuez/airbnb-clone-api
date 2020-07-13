@@ -76,7 +76,7 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
 
 router.get('/bookings', authMid.authenticateJWT, async (req, res) => {
   const bookingsFound = await bookingsController.getBookings(req);
-
+  console.log(req);
   res.status(201).json(bookingsFound);
 });
 
