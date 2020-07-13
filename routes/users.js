@@ -56,12 +56,12 @@ router.post('/signin', async (req, res) => {
       });
     } else {
       return res.status(401).json({
-        error: "Votre mot de passe n'est pas correct",
+        message: "Votre mot de passe n'est pas correct",
       });
     }
   } else {
     return res.status(401).json({
-      error: "Votre compte n'existe pas",
+      message: "Votre compte n'existe pas",
     });
   }
 });

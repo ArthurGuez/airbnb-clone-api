@@ -36,7 +36,18 @@ module.exports = {
         },
       ],
     });
+    if (!placeFound) {
+      return placeFound;
+    }
     return placeFound.update(data);
+  },
+
+  deletePlace: async (placeId) => {
+    return Place.destroy({
+      where: {
+        id: placeId,
+      },
+    });
   },
 
   getPlaceById: (placeId) => {
@@ -58,7 +69,6 @@ module.exports = {
           attributes: ['name'],
         },
       ],
-      raw: true,
       attributes: [
         'id',
         'name',

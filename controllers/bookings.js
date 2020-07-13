@@ -1,10 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 
 const db = require('../models');
-const { getCityById } = require('./cities');
 
 const { Booking, Place, City } = db;
-//const Place = db.place;
 
 module.exports = {
   addBooking: async (request) => {

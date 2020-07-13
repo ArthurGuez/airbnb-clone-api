@@ -8,27 +8,43 @@ const router = express.Router();
 
 router.get('/places', async (req, res) => {
   const placesFound = await placesController.getAllPlaces();
-  res.status(200).json(placesFound);
+
+  const alteredPlacesFound = placesFound.map((placeFound) => {
+    const alteredPlaceFound = {};
+
+    alteredPlaceFound.id = placeFound.id;
+    alteredPlaceFound.city = placeFound.City.name;
+    alteredPlaceFound.name = placeFound.name;
+    alteredPlaceFound.description = placeFound.description;
+    alteredPlaceFound.rooms = placeFound.rooms;
+    alteredPlaceFound.bathrooms = placeFound.bathrooms;
+    alteredPlaceFound.max_guests = placeFound.max_guests;
+    alteredPlaceFound.price_by_night = placeFound.price_by_night;
+
+    return alteredPlaceFound;
+  });
+
+  res.status(200).json(alteredPlacesFound);
 });
 
 router.get('/places/:placeId', async (req, res) => {
   const placeFound = await placesController.getPlaceById(req.params.placeId);
-  if (placeFound) {
-    res.status(200).json({
-      id: placeFound.id,
-      city: placeFound.City.name,
-      name: placeFound.name,
-      description: placeFound.description,
-      rooms: placeFound.rooms,
-      bathrooms: placeFound.bathrooms,
-      max_guests: placeFound.max_guests,
-      price_by_night: placeFound.price_by_night,
-    });
-  } else {
+  if (!placeFound) {
     return res.status(404).json({
       error: "La ressource demandée n'existe pas",
     });
   }
+
+  return res.status(200).json({
+    id: placeFound.id,
+    city: placeFound.City.name,
+    name: placeFound.name,
+    description: placeFound.description,
+    rooms: placeFound.rooms,
+    bathrooms: placeFound.bathrooms,
+    max_guests: placeFound.max_guests,
+    price_by_night: placeFound.price_by_night,
+  });
 });
 
 router.post('/places', authMid.authenticateJWT, async (req, res) => {
@@ -52,7 +68,8 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
   }
   const newPlace = await placesController.addPlace(req.body);
   const cityFound = await citiesController.getCityById(req.body.city_id);
-  res.status(201).json({
+
+  return res.status(201).json({
     id: newPlace.id,
     city: cityFound.name,
     name: newPlace.name,
@@ -66,15 +83,35 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
 
 router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   const { userRole } = req.user;
+  const { rooms } = req.body;
+
   if (userRole === 'tourist') {
-    res.status(403).json({
+    return res.status(403).json({
       message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+    });
+  }
+
+  if (req.body.title) {
+    return res.status(400).json({
+      message: "Le champ title n'existe pas",
+    });
+  }
+
+  if (typeof rooms !== 'number') {
+    return res.status(400).json({
+      message: 'Le champ rooms doit être un nombre entier',
     });
   }
 
   const placeUpdated = await placesController.updatePlace(req.body, req.params.placeId);
 
-  res.status(200).json({
+  if (!placeUpdated) {
+    return res.status(404).json({
+      message: "La ressource demandée n'existe pas",
+    });
+  }
+
+  return res.status(200).json({
     id: placeUpdated.id,
     city: placeUpdated.City.name,
     name: placeUpdated.name,
@@ -84,6 +121,26 @@ router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
     max_guests: placeUpdated.max_guests,
     price_by_night: placeUpdated.price_by_night,
   });
+});
+
+router.delete('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
+  const { userRole } = req.user;
+
+  if (userRole === 'tourist') {
+    return res.status(403).json({
+      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+    });
+  }
+
+  const placeDeleted = await placesController.deletePlace(req.params.placeId);
+
+  if (!placeDeleted) {
+    return res.status(404).json({
+      error: "La ressource demandée n'existe pas",
+    });
+  }
+
+  return res.status(204).send();
 });
 
 module.exports = router;
