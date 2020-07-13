@@ -36,6 +36,9 @@ module.exports = {
         },
       ],
     });
+    if (!placeFound) {
+      return placeFound;
+    }
     return placeFound.update(data);
   },
 

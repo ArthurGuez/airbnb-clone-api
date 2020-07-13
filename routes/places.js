@@ -68,7 +68,8 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
   }
   const newPlace = await placesController.addPlace(req.body);
   const cityFound = await citiesController.getCityById(req.body.city_id);
-  res.status(201).json({
+
+  return res.status(201).json({
     id: newPlace.id,
     city: cityFound.name,
     name: newPlace.name,
@@ -82,15 +83,35 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
 
 router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   const { userRole } = req.user;
+  const { rooms } = req.body;
+
   if (userRole === 'tourist') {
-    res.status(403).json({
+    return res.status(403).json({
       message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+    });
+  }
+
+  if (req.body.title) {
+    return res.status(400).json({
+      message: "Le champ title n'existe pas",
+    });
+  }
+
+  if (typeof rooms !== 'number') {
+    return res.status(400).json({
+      message: 'Le champ rooms doit être un nombre entier',
     });
   }
 
   const placeUpdated = await placesController.updatePlace(req.body, req.params.placeId);
 
-  res.status(200).json({
+  if (!placeUpdated) {
+    return res.status(404).json({
+      message: "La ressource demandée n'existe pas",
+    });
+  }
+
+  return res.status(200).json({
     id: placeUpdated.id,
     city: placeUpdated.City.name,
     name: placeUpdated.name,

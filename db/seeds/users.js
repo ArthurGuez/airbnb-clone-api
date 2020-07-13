@@ -1,31 +1,27 @@
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
 
-module.exports = () => {
+const hashPassword = () => {
+  const hashedPassword = bcrypt.hash('azerty', 10);
+  return hashedPassword;
+};
+module.exports = async () => {
   return [
     {
       id: uuidv4(),
       role: 'host',
       first_name: 'Sylvie',
       last_name: 'Lu',
-      email: 'sylvie@lu.com',
-      password: 'azerty',
+      email: 'host@test.com',
+      password: await hashPassword(),
     },
     {
       id: uuidv4(),
       role: 'tourist',
       first_name: 'My',
       last_name: 'Vo',
-      email: 'my@vo.com',
-      password: 'azerty',
+      email: 'tourist@test.com',
+      password: await hashPassword(),
     },
-    {
-      id: uuidv4(),
-      role: 'tourist',
-      first_name: 'Arthur',
-      last_name: 'Guez',
-      email: 'arthur@guez.com',
-      password: 'azerty',
-    },
-  ];
   ];
 };

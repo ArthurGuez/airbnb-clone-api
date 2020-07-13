@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 module.exports = () => {
   return [
     {
-      id: uuidv4(),
+      id: 1,
       city_id: 1,
       name: 'Mon bel appart',
       description: 'Un bel appart confortable au coeur de Paris',
@@ -13,7 +13,7 @@ module.exports = () => {
       price_by_night: 59,
     },
     {
-      id: uuidv4(),
+      id: 2,
       city_id: 2,
       name: 'Mon bel appart',
       description: 'Un bel appart confortable au coeur de Dijon',
@@ -23,7 +23,7 @@ module.exports = () => {
       price_by_night: 59,
     },
     {
-      id: uuidv4(),
+      id: 3,
       city_id: 3,
       name: 'Mon bel appart',
       description: 'Un bel appart confortable au coeur de Rennes',
@@ -33,7 +33,7 @@ module.exports = () => {
       price_by_night: 59,
     },
     {
-      id: uuidv4(),
+      id: 4,
       city_id: 4,
       name: 'Mon bel appart',
       description: 'Un bel appart confortable au coeur de Bordeaux',
@@ -43,7 +43,7 @@ module.exports = () => {
       price_by_night: 59,
     },
     {
-      id: uuidv4(),
+      id: 5,
       city_id: 5,
       name: 'Mon bel appart',
       description: 'Un bel appart confortable au coeur de Marseille',
@@ -53,7 +53,7 @@ module.exports = () => {
       price_by_night: 59,
     },
     {
-      id: uuidv4(),
+      id: 6,
       city_id: 6,
       name: 'Mon bel appart',
       description: 'Un bel appart confortable au coeur de Montpellier',
