@@ -58,7 +58,6 @@ module.exports = {
           attributes: ['name'],
         },
       ],
-      raw: true,
       attributes: [
         'id',
         'name',
