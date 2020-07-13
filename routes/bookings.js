@@ -74,4 +74,21 @@ router.get('/bookings', authMid.authenticateJWT, async (req, res) => {
   res.status(201).json(bookingsFound);
 });
 
+router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  const bookingFound = await bookingsController.rechercherBookingId(id);
+  console.log(bookingFound);
+
+  if (!bookingFound) {
+    return res.status(404).json({
+      error: "La ressource demandée n'existe pas",
+    });
+  }
+
+  // await bookingsController.deleteBooking(id);
+  // res.status(204).json();
+});
+
 module.exports = router;
