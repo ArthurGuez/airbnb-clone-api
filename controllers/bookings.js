@@ -97,4 +97,23 @@ module.exports = {
 
     return bookingDelete;
   },
+
+  getBookingsPlaceId: async (placeId) => {
+    console.log('placeId');
+    const bookingsPlaceId = await Booking.findAll({
+      attributes: ['id', 'check_in', 'check_out'],
+      where: {
+        place_id: placeId,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'first_name', 'last_name', 'email'],
+        },
+      ],
+      order: [['id', 'ASC']],
+    });
+
+    return bookingsPlaceId;
+  },
 };
