@@ -48,7 +48,7 @@ module.exports = {
     return confirmedBooking;
   },
 
-  getBookings: async (request) => {
+  getBookingsTourist: async (request) => {
     const { userId } = request.user;
     const bookingsFound = await Booking.findAll({
       attributes: ['id', 'check_in', 'check_out'],
@@ -99,7 +99,6 @@ module.exports = {
   },
 
   getBookingsPlaceId: async (placeId) => {
-    console.log('placeId');
     const bookingsPlaceId = await Booking.findAll({
       attributes: ['id', 'check_in', 'check_out'],
       where: {
@@ -115,5 +114,41 @@ module.exports = {
     });
 
     return bookingsPlaceId;
+  },
+
+  getBookingsHost: async (request) => {
+    const { userId } = request.user;
+    const bookingsFound = await Place.findAll({
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'rooms',
+        'bathrooms',
+        'max_guests',
+        'price_by_night',
+      ],
+      where: {
+        user_id: userId,
+      },
+      include: [
+        {
+          model: City,
+          attributes: ['name'],
+        },
+        {
+          model: Booking,
+          attributes: ['id', 'check_in', 'check_out'],
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'first_name', 'last_name', 'email'],
+            },
+          ],
+        },
+      ],
+    });
+
+    return bookingsFound;
   },
 };
