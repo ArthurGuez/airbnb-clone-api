@@ -17,6 +17,7 @@ module.exports = {
           },
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
       user_id: {
         type: Sequelize.UUID,

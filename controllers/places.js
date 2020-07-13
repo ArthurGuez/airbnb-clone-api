@@ -42,6 +42,14 @@ module.exports = {
     return placeFound.update(data);
   },
 
+  deletePlace: async (placeId) => {
+    return Place.destroy({
+      where: {
+        id: placeId,
+      },
+    });
+  },
+
   getPlaceById: (placeId) => {
     return Place.findByPk(placeId, {
       include: [

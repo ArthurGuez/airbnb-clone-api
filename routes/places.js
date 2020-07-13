@@ -29,22 +29,22 @@ router.get('/places', async (req, res) => {
 
 router.get('/places/:placeId', async (req, res) => {
   const placeFound = await placesController.getPlaceById(req.params.placeId);
-  if (placeFound) {
-    res.status(200).json({
-      id: placeFound.id,
-      city: placeFound.City.name,
-      name: placeFound.name,
-      description: placeFound.description,
-      rooms: placeFound.rooms,
-      bathrooms: placeFound.bathrooms,
-      max_guests: placeFound.max_guests,
-      price_by_night: placeFound.price_by_night,
-    });
-  } else {
+  if (!placeFound) {
     return res.status(404).json({
       error: "La ressource demandée n'existe pas",
     });
   }
+
+  return res.status(200).json({
+    id: placeFound.id,
+    city: placeFound.City.name,
+    name: placeFound.name,
+    description: placeFound.description,
+    rooms: placeFound.rooms,
+    bathrooms: placeFound.bathrooms,
+    max_guests: placeFound.max_guests,
+    price_by_night: placeFound.price_by_night,
+  });
 });
 
 router.post('/places', authMid.authenticateJWT, async (req, res) => {
@@ -121,6 +121,26 @@ router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
     max_guests: placeUpdated.max_guests,
     price_by_night: placeUpdated.price_by_night,
   });
+});
+
+router.delete('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
+  const { userRole } = req.user;
+
+  if (userRole === 'tourist') {
+    return res.status(403).json({
+      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
+    });
+  }
+
+  const placeDeleted = await placesController.deletePlace(req.params.placeId);
+
+  if (!placeDeleted) {
+    return res.status(404).json({
+      error: "La ressource demandée n'existe pas",
+    });
+  }
+
+  return res.status(204);
 });
 
 module.exports = router;
