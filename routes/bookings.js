@@ -99,12 +99,23 @@ router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {
   if (req.query.place_id !== undefined) {
     const bookingsFound = await bookingsController.getBookingsPlaceId(req.query.place_id);
 
-    res.status(201).json(bookingsFound);
+    res.status(200).json(bookingsFound);
   } else {
-    // GET /api/bookings
-    const bookingsFound = await bookingsController.getBookings(req);
+    const { userRole } = req.user;
 
-    res.status(201).json(bookingsFound);
+    if (userRole === 'tourist') {
+      // GET /api/bookings ETQ tourist
+      const bookingsFound = await bookingsController.getBookingsTourist(req);
+
+      res.status(200).json(bookingsFound);
+    }
+
+    if (userRole === 'host') {
+      // GET /api/bookings ETQ host
+      const bookingsFound = await bookingsController.getBookingsHost(req);
+
+      res.status(200).json(bookingsFound);
+    }
   }
 });
 
