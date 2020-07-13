@@ -140,7 +140,7 @@ router.delete('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
     });
   }
 
-  return res.status(204);
+  return res.status(204).send();
 });
 
 module.exports = router;
