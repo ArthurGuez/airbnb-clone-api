@@ -85,17 +85,16 @@ module.exports = {
     return bookingsFound;
   },
 
-  rechercherBookingId: async (id) => {
-    const bookingId = await Booking.findByPk(id);
-
-    return bookingId;
+  rechercherBookingId: (id) => {
+    return Booking.findByPk(id);
   },
 
-  deleteBooking: async (id) => {
-    const bookingDelete = await Booking.findByPk(id);
-    bookingDelete.destroy();
-
-    return bookingDelete;
+  deleteBooking: (bookingId) => {
+    return Booking.destroy({
+      where: {
+        id: bookingId,
+      },
+    });
   },
 
   getBookingsPlaceId: async (placeId) => {
