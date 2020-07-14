@@ -61,7 +61,21 @@ module.exports = {
     });
   },
 
-  getAllPlaces: () => {
+  getPlacesByCity: (cityId) => {
+    return Place.findAll({
+      where: {
+        city_id: cityId,
+      },
+      include: [
+        {
+          model: City,
+          attributes: ['name'],
+        },
+      ],
+    });
+  },
+
+  getPlaces: () => {
     return Place.findAll({
       include: [
         {

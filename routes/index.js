@@ -7,7 +7,7 @@ const placesRouter = require('./places');
 const citiesRouter = require('./cities');
 const bookingsRouter = require('./bookings');
 
-// router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(usersRouter);
 router.use(placesRouter);
