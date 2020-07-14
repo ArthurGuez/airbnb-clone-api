@@ -15,4 +15,13 @@ module.exports = {
       attributes: ['name'],
     });
   },
+
+  getCityByName: (cityName) => {
+    return City.findOne({
+      where: {
+        name: cityName,
+      },
+      attributes: ['id'],
+    });
+  },
 };

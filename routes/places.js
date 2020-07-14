@@ -7,24 +7,45 @@ const authMid = require('../utils/jwt.utils');
 const router = express.Router();
 
 router.get('/places', async (req, res) => {
-  const placesFound = await placesController.getAllPlaces();
+  if (req.query.city) {
+    const cityFound = await citiesController.getCityByName(req.query.city);
+    if (!cityFound) {
+      return res.status(200).json([]);
+    }
+    const placesFound = await placesController.getPlacesByCity(cityFound.id);
+    const alteredPlacesFound = placesFound.map((placeFound) => {
+      const alteredPlaceFound = {};
 
-  const alteredPlacesFound = placesFound.map((placeFound) => {
-    const alteredPlaceFound = {};
+      alteredPlaceFound.id = placeFound.id;
+      alteredPlaceFound.city = placeFound.City.name;
+      alteredPlaceFound.name = placeFound.name;
+      alteredPlaceFound.description = placeFound.description;
+      alteredPlaceFound.rooms = placeFound.rooms;
+      alteredPlaceFound.bathrooms = placeFound.bathrooms;
+      alteredPlaceFound.max_guests = placeFound.max_guests;
+      alteredPlaceFound.price_by_night = placeFound.price_by_night;
 
-    alteredPlaceFound.id = placeFound.id;
-    alteredPlaceFound.city = placeFound.City.name;
-    alteredPlaceFound.name = placeFound.name;
-    alteredPlaceFound.description = placeFound.description;
-    alteredPlaceFound.rooms = placeFound.rooms;
-    alteredPlaceFound.bathrooms = placeFound.bathrooms;
-    alteredPlaceFound.max_guests = placeFound.max_guests;
-    alteredPlaceFound.price_by_night = placeFound.price_by_night;
+      return alteredPlaceFound;
+    });
+    res.status(200).json(alteredPlacesFound);
+  } else {
+    const placesFound = await placesController.getPlaces();
+    const alteredPlacesFound = placesFound.map((placeFound) => {
+      const alteredPlaceFound = {};
 
-    return alteredPlaceFound;
-  });
+      alteredPlaceFound.id = placeFound.id;
+      alteredPlaceFound.city = placeFound.City.name;
+      alteredPlaceFound.name = placeFound.name;
+      alteredPlaceFound.description = placeFound.description;
+      alteredPlaceFound.rooms = placeFound.rooms;
+      alteredPlaceFound.bathrooms = placeFound.bathrooms;
+      alteredPlaceFound.max_guests = placeFound.max_guests;
+      alteredPlaceFound.price_by_night = placeFound.price_by_night;
 
-  res.status(200).json(alteredPlacesFound);
+      return alteredPlaceFound;
+    });
+    res.status(200).json(alteredPlacesFound);
+  }
 });
 
 router.get('/places/:placeId', async (req, res) => {
