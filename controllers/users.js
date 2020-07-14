@@ -21,19 +21,19 @@ module.exports = {
     });
   },
 
-  checkEmail: (email) => {
+  checkEmail: (userEmail) => {
     return User.findOne({
       attributes: ['email'],
       where: {
-        email: email,
+        email: userEmail,
       },
     });
   },
 
-  getUserByEmail: (email) => {
+  getUserByEmail: (userEmail) => {
     return User.findOne({
       where: {
-        email: email,
+        email: userEmail,
       },
     });
   },
