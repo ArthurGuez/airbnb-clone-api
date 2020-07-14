@@ -7,7 +7,8 @@ const bookingsController = require('../controllers/bookings');
 const router = express.Router();
 
 router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
-  const { userRole } = req.user;
+  const { userRole, userId } = req.user;
+  console.log(req.user);
 
   if (userRole === 'host') {
     return res.status(403).json({
@@ -65,7 +66,7 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   }
 
   // 201 - La requête est un succès (nouvelle donnée créée en base)
-  const newBooking = await bookingsController.addBooking(req);
+  const newBooking = await bookingsController.addBooking(req.body, userId);
 
   return res.status(201).json(newBooking);
 });
@@ -81,7 +82,7 @@ router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
     });
   }
 
-  const bookingFound = await bookingsController.rechercherBookingId(id);
+  const bookingFound = await bookingsController.getBookingById(id);
 
   if (!bookingFound) {
     return res.status(404).json({
@@ -97,7 +98,7 @@ router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
 router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {
   // GET /api/bookings?place_id={placeId}
   if (req.query.place_id !== undefined) {
-    const bookingsFound = await bookingsController.getBookingsPlaceId(req.query.place_id);
+    const bookingsFound = await bookingsController.getBookingsByPlace(req.query.place_id);
 
     res.status(200).json(bookingsFound);
   } else {
