@@ -5,9 +5,8 @@ const db = require('../models');
 const { Booking, User, Place, City } = db;
 
 module.exports = {
-  addBooking: async (request) => {
-    const { place_id: placeId, check_in: checkIn, check_out: checkOut } = request.body;
-    const { userId } = request.user;
+  addBooking: async (data, userId) => {
+    const { place_id: placeId, check_in: checkIn, check_out: checkOut } = data;
 
     const newBooking = await Booking.create({
       id: uuidv4(),
@@ -17,7 +16,7 @@ module.exports = {
       check_out: checkOut,
     });
 
-    const confirmedBooking = await Booking.findByPk(newBooking.id, {
+    const confirmedBooking = Booking.findByPk(newBooking.id, {
       attributes: ['id', 'check_in', 'check_out'],
       include: [
         {
@@ -50,7 +49,7 @@ module.exports = {
 
   getBookingsTourist: async (request) => {
     const { userId } = request.user;
-    const bookingsFound = await Booking.findAll({
+    return Booking.findAll({
       attributes: ['id', 'check_in', 'check_out'],
       where: {
         user_id: userId,
@@ -81,25 +80,22 @@ module.exports = {
       ],
       order: [['check_in', 'DESC']],
     });
-
-    return bookingsFound;
   },
 
-  rechercherBookingId: async (id) => {
-    const bookingId = await Booking.findByPk(id);
-
-    return bookingId;
+  getBookingById: (bookingId) => {
+    return Booking.findByPk(bookingId);
   },
 
-  deleteBooking: async (id) => {
-    const bookingDelete = await Booking.findByPk(id);
-    bookingDelete.destroy();
-
-    return bookingDelete;
+  deleteBooking: (bookingId) => {
+    return Booking.destroy({
+      where: {
+        id: bookingId,
+      },
+    });
   },
 
-  getBookingsPlaceId: async (placeId) => {
-    const bookingsPlaceId = await Booking.findAll({
+  getBookingsPlaceId: (placeId) => {
+    return Booking.findAll({
       attributes: ['id', 'check_in', 'check_out'],
       where: {
         place_id: placeId,
@@ -112,13 +108,11 @@ module.exports = {
       ],
       order: [['id', 'ASC']],
     });
-
-    return bookingsPlaceId;
   },
 
-  getBookingsHost: async (request) => {
+  getBookingsHost: (request) => {
     const { userId } = request.user;
-    const bookingsFound = await Place.findAll({
+    return Place.findAll({
       attributes: [
         'id',
         'name',
@@ -148,7 +142,5 @@ module.exports = {
         },
       ],
     });
-
-    return bookingsFound;
   },
 };
