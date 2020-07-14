@@ -67,7 +67,7 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   // 201 - La requête est un succès (nouvelle donnée créée en base)
   const newBooking = await bookingsController.addBooking(req);
 
-  res.status(201).json(newBooking);
+  return res.status(201).json(newBooking);
 });
 
 router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
@@ -91,7 +91,7 @@ router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
 
   // 204 - Si la requête est un succès (suppression de la donnée en base)
   await bookingsController.deleteBooking(id);
-  res.status(204).json();
+  return res.status(204).json();
 });
 
 router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {

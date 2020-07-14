@@ -27,25 +27,25 @@ router.get('/places', async (req, res) => {
 
       return alteredPlaceFound;
     });
-    res.status(200).json(alteredPlacesFound);
-  } else {
-    const placesFound = await placesController.getPlaces();
-    const alteredPlacesFound = placesFound.map((placeFound) => {
-      const alteredPlaceFound = {};
-
-      alteredPlaceFound.id = placeFound.id;
-      alteredPlaceFound.city = placeFound.City.name;
-      alteredPlaceFound.name = placeFound.name;
-      alteredPlaceFound.description = placeFound.description;
-      alteredPlaceFound.rooms = placeFound.rooms;
-      alteredPlaceFound.bathrooms = placeFound.bathrooms;
-      alteredPlaceFound.max_guests = placeFound.max_guests;
-      alteredPlaceFound.price_by_night = placeFound.price_by_night;
-
-      return alteredPlaceFound;
-    });
-    res.status(200).json(alteredPlacesFound);
+    return res.status(200).json(alteredPlacesFound);
   }
+
+  const placesFound = await placesController.getPlaces();
+  const alteredPlacesFound = placesFound.map((placeFound) => {
+    const alteredPlaceFound = {};
+
+    alteredPlaceFound.id = placeFound.id;
+    alteredPlaceFound.city = placeFound.City.name;
+    alteredPlaceFound.name = placeFound.name;
+    alteredPlaceFound.description = placeFound.description;
+    alteredPlaceFound.rooms = placeFound.rooms;
+    alteredPlaceFound.bathrooms = placeFound.bathrooms;
+    alteredPlaceFound.max_guests = placeFound.max_guests;
+    alteredPlaceFound.price_by_night = placeFound.price_by_night;
+
+    return alteredPlaceFound;
+  });
+  return res.status(200).json(alteredPlacesFound);
 });
 
 router.get('/places/:placeId', async (req, res) => {
