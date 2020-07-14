@@ -94,7 +94,7 @@ module.exports = {
     });
   },
 
-  getBookingsPlaceId: (placeId) => {
+  getBookingsByPlace: (placeId) => {
     return Booking.findAll({
       attributes: ['id', 'check_in', 'check_out'],
       where: {
