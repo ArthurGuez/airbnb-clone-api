@@ -1,4 +1,5 @@
 const express = require('express');
+const validate = require('uuid-validate');
 
 const authMid = require('../utils/jwt.utils');
 const bookingsController = require('../controllers/bookings');
@@ -66,17 +67,56 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   // 201 - La requête est un succès (nouvelle donnée créée en base)
   const newBooking = await bookingsController.addBooking(req);
 
-  res.status(201).json({
-    id: newBooking.id,
-    place_id: newBooking.place_id,
-    check_in: newBooking.check_in,
-    check_out: newBooking.check_out,
-  });
+  res.status(201).json(newBooking);
 });
 
-router.get('/bookings', authMid.authenticateJWT, async (req, res) => {
-  const bookingsFound = await bookingsController.getBookings(req);
-  res.status(201).json(bookingsFound);
+router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
+  const { id } = req.params;
+
+  // 404 - Si la ressource demandée n'a pas été trouvée
+  // Check type d'id n'est pas UUID
+  if (!validate(id)) {
+    return res.status(404).json({
+      error: "La ressource demandée n'existe pas",
+    });
+  }
+
+  const bookingFound = await bookingsController.rechercherBookingId(id);
+
+  if (!bookingFound) {
+    return res.status(404).json({
+      error: "La ressource demandée n'existe pas",
+    });
+  }
+
+  // 204 - Si la requête est un succès (suppression de la donnée en base)
+  await bookingsController.deleteBooking(id);
+  res.status(204).json();
+});
+
+router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {
+  // GET /api/bookings?place_id={placeId}
+  if (req.query.place_id !== undefined) {
+    const bookingsFound = await bookingsController.getBookingsPlaceId(req.query.place_id);
+
+    res.status(200).json(bookingsFound);
+  } else {
+    const { userRole } = req.user;
+
+    if (userRole === 'tourist') {
+      // GET /api/bookings ETQ tourist
+      const bookingsFound = await bookingsController.getBookingsTourist(req);
+
+      res.status(200).json(bookingsFound);
+    }
+
+    if (userRole === 'host') {
+      // GET /api/bookings ETQ host
+      const bookingsFound = await bookingsController.getBookingsHost(req);
+
+      res.status(200).json(bookingsFound);
+    }
+  }
 });
 
 module.exports = router;
