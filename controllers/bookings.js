@@ -33,6 +33,7 @@ module.exports = {
             'bathrooms',
             'max_guests',
             'price_by_night',
+            'image',
           ],
           include: [
             {
@@ -69,6 +70,7 @@ module.exports = {
             'bathrooms',
             'max_guests',
             'price_by_night',
+            'image',
           ],
           include: [
             {
