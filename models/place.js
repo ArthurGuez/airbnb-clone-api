@@ -33,11 +33,12 @@ module.exports = (sequelize, DataTypes) => {
       city_id: DataTypes.INTEGER,
       user_id: DataTypes.UUID,
       name: DataTypes.STRING,
-      description: DataTypes.STRING,
+      description: DataTypes.TEXT,
       rooms: DataTypes.INTEGER,
       bathrooms: DataTypes.INTEGER,
       max_guests: DataTypes.INTEGER,
       price_by_night: DataTypes.INTEGER,
+      image: DataTypes.TEXT,
     },
     {
       sequelize,

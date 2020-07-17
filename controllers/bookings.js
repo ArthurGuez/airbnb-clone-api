@@ -78,7 +78,7 @@ module.exports = {
           ],
         },
       ],
-      order: [['check_in', 'DESC']],
+      order: [['check_in', 'ASC']],
     });
   },
 

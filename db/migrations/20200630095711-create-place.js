@@ -32,7 +32,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       rooms: {
         type: Sequelize.INTEGER,
@@ -45,6 +45,9 @@ module.exports = {
       },
       price_by_night: {
         type: Sequelize.INTEGER,
+      },
+      image: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,
