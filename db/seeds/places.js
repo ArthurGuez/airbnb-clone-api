@@ -12,8 +12,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 3,
       price_by_night: 129,
-      image:
-        'https://www.airbnb.fr/rooms/plus/25392196/photos/627171182?location=Paris&adults=1&guests=1&source_impression_id=p3_1594976813_ykbHLfkmv5WqQ4qT',
+      image: 'https://a0.muscache.com/im/pictures/71f104d3-a992-4e3e-85e5-c97ad224b3c0.jpg',
     },
     {
       id: 2,
@@ -25,8 +24,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 4,
       price_by_night: 75,
-      image:
-        'https://www.airbnb.fr/rooms/36522079/photos/806914028?adults=1&guests=1&location=Dijon&source_impression_id=p3_1594977237_fUQDZxbwwC536h1s',
+      image: 'https://a0.muscache.com/im/pictures/4cfd6bfc-8cb8-4cbb-a892-266e9dadad3c.jpg',
     },
     {
       id: 3,
@@ -38,8 +36,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 2,
       price_by_night: 74,
-      image:
-        'https://www.airbnb.fr/rooms/17222007/photos/266830212?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&source_impression_id=p3_1594977443_P3uVlB2NrCpKUpXp',
+      image: 'https://a0.muscache.com/im/pictures/e3faa513-acc3-4784-86ac-136b0d208381.jpg',
     },
     {
       id: 4,
@@ -50,8 +47,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 3,
       price_by_night: 59,
-      image:
-        'https://www.airbnb.fr/rooms/17222007/photos/266830212?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&source_impression_id=p3_1594977443_P3uVlB2NrCpKUpXp',
+      image: 'https://a0.muscache.com/im/pictures/e3faa513-acc3-4784-86ac-136b0d208381.jpg',
     },
     {
       id: 5,
@@ -62,8 +58,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 2,
       price_by_night: 25,
-      image:
-        'https://www.airbnb.fr/rooms/40016713/photos/910767461?adults=1&guests=1&location=Marseille&check_in=2020-08-26&check_out=2020-08-27&source_impression_id=p3_1594978930_08he4wzvdPFmypWd',
+      image: 'https://a0.muscache.com/im/pictures/2758f1f9-6025-4a1b-a5f1-a1b947420f87.jpg',
     },
     {
       id: 6,
@@ -75,8 +70,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 2,
       price_by_night: 22,
-      image:
-        'https://www.airbnb.fr/rooms/41968929/photos/960443742?adults=1&guests=1&location=Montpellier&check_in=2020-08-26&check_out=2020-08-27&source_impression_id=p3_1594979058_98y4mI9Rbs0v1DUn',
+      image: 'https://a0.muscache.com/im/pictures/18932e12-5e42-4dd9-ab8a-c6085a507dc6.jpg',
     },
     {
       id: 7,
@@ -88,8 +82,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 2,
       price_by_night: 74,
-      image:
-        'https://www.airbnb.fr/rooms/22475432/photos/427273308?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&previous_page_section_name=1000&federated_search_id=cec5609b-1c49-4508-9cef-0619e2fc78f1',
+      image: 'https://a0.muscache.com/im/pictures/63119ccc-6c2d-443b-b63b-206ee276eca8.jpg',
     },
     {
       id: 8,
@@ -101,8 +94,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 2,
       price_by_night: 58,
-      image:
-        'https://www.airbnb.fr/rooms/35178219/photos/767174362?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&previous_page_section_name=1000&federated_search_id=cec5609b-1c49-4508-9cef-0619e2fc78f1',
+      image: 'https://a0.muscache.com/im/pictures/1b4f37fe-101c-472e-a861-afd03c6bdf15.jpg',
     },
     {
       id: 9,
@@ -114,8 +106,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 3,
       price_by_night: 58,
-      image:
-        'https://www.airbnb.fr/rooms/27280842/photos/716363663?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&source_impression_id=p3_1594978304_SZgLFLAALNfAyLd%2F',
+      image: 'https://a0.muscache.com/im/pictures/f995a605-d799-4e71-9297-c1ff4167b748.jpg',
     },
     {
       id: 10,
@@ -127,8 +118,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 2,
       price_by_night: 46,
-      image:
-        'https://www.airbnb.fr/rooms/11922717/photos/783862579?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&previous_page_section_name=1000&federated_search_id=759cdf6c-7067-492b-aa13-a203114698e6',
+      image: 'https://a0.muscache.com/im/pictures/1a595d0c-4341-4bd3-8b71-41f82db8d30b.jpg',
     },
     {
       id: 11,
@@ -140,8 +130,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 2,
       price_by_night: 78,
-      image:
-        'https://www.airbnb.fr/rooms/39263879/photos/926286301?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&previous_page_section_name=1000&federated_search_id=7efa432d-29ae-48b1-8af3-a4d600bd603b',
+      image: 'https://a0.muscache.com/im/pictures/94da9770-065d-465a-9e88-b772c1db0920.jpg',
     },
     {
       id: 12,
@@ -153,8 +142,7 @@ module.exports = () => {
       bathrooms: 1,
       max_guests: 4,
       price_by_night: 71,
-      image:
-        'https://www.airbnb.fr/rooms/43334043/photos/1000722827?adults=1&guests=1&location=Paris&check_in=2020-08-26&check_out=2020-08-27&previous_page_section_name=1000&federated_search_id=7efa432d-29ae-48b1-8af3-a4d600bd603b',
+      image: 'https://a0.muscache.com/im/pictures/06460dc3-f6ee-405d-bd5a-536820bf9522.jpg',
     },
   ];
 };
