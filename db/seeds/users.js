@@ -1,9 +1,9 @@
 const { v4: uuidv4 } = require('uuid');
 
-module.exports = async () => {
+module.exports = () => {
   return [
     {
-      id: uuidv4(),
+      id: '93c2edcc-341b-42f0-92a2-e10e1e239bcd',
       role: 'host',
       first_name: 'Sylvie',
       last_name: 'Lu',

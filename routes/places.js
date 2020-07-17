@@ -24,6 +24,7 @@ router.get('/places', async (req, res) => {
       alteredPlaceFound.bathrooms = placeFound.bathrooms;
       alteredPlaceFound.max_guests = placeFound.max_guests;
       alteredPlaceFound.price_by_night = placeFound.price_by_night;
+      alteredPlaceFound.image = placeFound.image;
 
       return alteredPlaceFound;
     });
@@ -42,6 +43,7 @@ router.get('/places', async (req, res) => {
     alteredPlaceFound.bathrooms = placeFound.bathrooms;
     alteredPlaceFound.max_guests = placeFound.max_guests;
     alteredPlaceFound.price_by_night = placeFound.price_by_night;
+    alteredPlaceFound.image = placeFound.image;
 
     return alteredPlaceFound;
   });
@@ -65,6 +67,7 @@ router.get('/places/:placeId', async (req, res) => {
     bathrooms: placeFound.bathrooms,
     max_guests: placeFound.max_guests,
     price_by_night: placeFound.price_by_night,
+    image: placeFound.image,
   });
 });
 
