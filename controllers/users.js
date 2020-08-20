@@ -8,10 +8,11 @@ const { User } = db;
 module.exports = {
   addUser: async (data) => {
     const { role, first_name: firstName, last_name: lastName, email, password } = data;
-
+    console.log(firstName)
+    console.log({password})
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    return User.create({
+    console.log({hashedPassword})
+    const response = await User.create({
       id: uuidv4(),
       role,
       first_name: firstName,
@@ -19,6 +20,8 @@ module.exports = {
       email,
       password: hashedPassword,
     });
+    console.log(response);
+    return response;
   },
 
   checkEmail: (userEmail) => {
