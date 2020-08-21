@@ -13,7 +13,24 @@ let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    {
+      host: config.host,
+      dialect: config.dialect,
+      operatorsAliases: false,
+
+      pool: {
+        max: config.max,
+        min: config.pool.min,
+        acquire: config.pool.acquire,
+        idle: config.pool.idle,
+      },
+    },
+    config
+  );
 }
 
 fs.readdirSync(__dirname)
