@@ -18,6 +18,12 @@
     "password": "f319c643a9ae73d38a37fd8d0a25af736f543fa4e94d8efbec00021c17f08bf3",
     "database": "d2ra9lltii2e44",
     "host": "ec2-3-248-4-172.eu-west-1.compute.amazonaws.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
   }
 }
