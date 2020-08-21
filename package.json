@@ -50,5 +50,8 @@
     "sequelize": "^6.2.3",
     "uuid": "^8.2.0",
     "uuid-validate": "0.0.3"
+  },
+  "engines": {
+    "node": "12.16.1"
   }
 }
