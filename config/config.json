@@ -20,11 +20,5 @@
     "host": "ec2-46-137-79-235.eu-west-1.compute.amazonaws.com",
     "port": 5432,
     "dialect": "postgres"
-    // "pool": {
-    //   "max": 5,
-    //   "min": 0,
-    //   "acquire": 30000,
-    //   "idle": 10000
-    // }
   }
 }
