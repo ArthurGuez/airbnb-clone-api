@@ -22,12 +22,12 @@ if (config.use_env_variable) {
       dialect: config.dialect,
       operatorsAliases: false,
 
-      pool: {
-        max: config.max,
-        min: config.pool.min,
-        acquire: config.pool.acquire,
-        idle: config.pool.idle,
-      },
+      // pool: {
+      //   max: config.max,
+      //   min: config.pool.min,
+      //   acquire: config.pool.acquire,
+      //   idle: config.pool.idle,
+      // },
     },
     config
   );
