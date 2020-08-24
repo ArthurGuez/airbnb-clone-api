@@ -21,13 +21,6 @@ if (config.use_env_variable) {
       host: config.host,
       dialect: config.dialect,
       operatorsAliases: false,
-
-      // pool: {
-      //   max: config.max,
-      //   min: config.pool.min,
-      //   acquire: config.pool.acquire,
-      //   idle: config.pool.idle,
-      // },
     },
     config
   );
