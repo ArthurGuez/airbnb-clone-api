@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SIGN_SECRET = 'Uy3vwHpweXYj5I-JHeEIbZ4SLAgmVHDdSGc5QFTNTBi0-u-C0';
+const secret = process.env.JWT_SIGN_SECRET;
 
 module.exports = {
   genToken: (userData) => {
@@ -9,7 +9,7 @@ module.exports = {
         userId: userData.id,
         userRole: userData.role,
       },
-      JWT_SIGN_SECRET
+      secret
       /* {
         expiresIn: '1h',
       } */
@@ -22,7 +22,7 @@ module.exports = {
     if (authHeader) {
       const token = authHeader.split(' ')[1];
 
-      jwt.verify(token, JWT_SIGN_SECRET, (err, user) => {
+      jwt.verify(token, secret, (err, user) => {
         if (err) {
           console.log(err);
           return res.sendStatus(403);
