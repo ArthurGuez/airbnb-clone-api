@@ -2,6 +2,7 @@ const express = require('express');
 
 const usersController = require('../controllers/users');
 const jwtUtils = require('../utils/jwt.utils');
+const UnauthorizedError = require('../helpers/errors/unauthorized_error');
 
 const router = express.Router();
 
@@ -55,14 +56,10 @@ router.post('/signin', async (req, res) => {
         },
       });
     } else {
-      return res.status(401).json({
-        message: "Votre mot de passe n'est pas correct",
-      });
+      throw new UnauthorizedError('Accès refusé', "Votre mot de passe n'est pas correct");
     }
   } else {
-    return res.status(401).json({
-      message: "Votre compte n'existe pas",
-    });
+    throw new UnauthorizedError('Accès refusé', "Votre compte n'existe pas");
   }
 });
 

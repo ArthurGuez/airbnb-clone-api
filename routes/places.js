@@ -5,6 +5,7 @@ const citiesController = require('../controllers/cities');
 const authMid = require('../utils/jwt.utils');
 
 const NotFoundError = require('../helpers/errors/not_found_error');
+const ForbiddenError = require('../helpers/errors/forbidden_error');
 
 const router = express.Router();
 
@@ -75,9 +76,7 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
   const { userRole } = req.user;
   const { description, rooms } = req.body;
   if (userRole === 'tourist') {
-    return res.status(403).json({
-      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
-    });
+    throw new ForbiddenError();
   }
   if (description === null || description === undefined || description === '') {
     return res.status(400).json({
@@ -110,9 +109,7 @@ router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   const { rooms } = req.body;
 
   if (userRole === 'tourist') {
-    return res.status(403).json({
-      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
-    });
+    throw new ForbiddenError();
   }
 
   if (req.body.title) {
@@ -149,9 +146,7 @@ router.delete('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   const { userRole } = req.user;
 
   if (userRole === 'tourist') {
-    return res.status(403).json({
-      message: "Vous n'êtes pas autorisé à accéder à cette ressource",
-    });
+    throw new ForbiddenError();
   }
 
   const placeDeleted = await placesController.deletePlace(req.params.placeId);

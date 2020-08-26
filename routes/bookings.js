@@ -4,6 +4,7 @@ const validate = require('uuid-validate');
 const authMid = require('../utils/jwt.utils');
 const bookingsController = require('../controllers/bookings');
 const NotFoundError = require('../helpers/errors/not_found_error');
+const ForbiddenError = require('../helpers/errors/forbidden_error');
 
 const router = express.Router();
 
@@ -12,9 +13,7 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   console.log(req.user);
 
   if (userRole === 'host') {
-    return res.status(403).json({
-      error: "Vous n'êtes pas autorisé à accéder à cette ressource",
-    });
+    throw new ForbiddenError();
   }
 
   const { place_id: placeId, check_in: checkIn, check_out: checkOut } = req.body;
