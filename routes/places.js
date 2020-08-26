@@ -6,6 +6,7 @@ const authMid = require('../utils/jwt.utils');
 
 const NotFoundError = require('../helpers/errors/not_found_error');
 const ForbiddenError = require('../helpers/errors/forbidden_error');
+const BadRequestError = require('../helpers/errors/bad_request_error');
 
 const router = express.Router();
 
@@ -79,15 +80,11 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
     throw new ForbiddenError();
   }
   if (description === null || description === undefined || description === '') {
-    return res.status(400).json({
-      message: "Le champ description n'est pas renseigné",
-    });
+    throw new BadRequestError('Requête incorrecte', "Le champ description n'est pas renseigné");
   }
 
   if (typeof rooms !== 'number') {
-    return res.status(400).json({
-      message: 'Le champ rooms doit être un nombre entier',
-    });
+    throw new BadRequestError('Requête incorrecte', 'Le champ rooms doit être un nombre entier');
   }
   const newPlace = await placesController.addPlace(req.body);
   const cityFound = await citiesController.getCityById(req.body.city_id);
@@ -113,15 +110,11 @@ router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   }
 
   if (req.body.title) {
-    return res.status(400).json({
-      message: "Le champ title n'existe pas",
-    });
+    throw new BadRequestError('Requête incorrecte', "Le champ title n'existe pas");
   }
 
   if (typeof rooms !== 'number') {
-    return res.status(400).json({
-      message: 'Le champ rooms doit être un nombre entier',
-    });
+    throw new BadRequestError('Requête incorrecte', 'Le champ rooms doit être un nombre entier');
   }
 
   const placeUpdated = await placesController.updatePlace(req.body, req.params.placeId);

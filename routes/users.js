@@ -3,6 +3,8 @@ const express = require('express');
 const usersController = require('../controllers/users');
 const jwtUtils = require('../utils/jwt.utils');
 const UnauthorizedError = require('../helpers/errors/unauthorized_error');
+const BadRequestError = require('../helpers/errors/bad_request_error');
+const ConflictError = require('../helpers/errors/conflict_error');
 
 const router = express.Router();
 
@@ -10,15 +12,14 @@ router.post('/signup', async (req, res) => {
   const { first_name: firstName, email } = req.body;
 
   if (firstName === null || firstName === undefined || firstName === '') {
-    return res.status(400).json({
-      error: "Le champ first_name n'est pas renseigné",
-    });
+    throw new BadRequestError('Requête incorrecte', "Le champ first_name n'est pas renseigné");
   }
 
   if (typeof firstName !== 'string') {
-    return res.status(400).json({
-      error: 'Le champ first_name doit être une chaîne de caractères',
-    });
+    throw new BadRequestError(
+      'Requête incorrecte',
+      'Le champ first_name doit être une chaîne de caractères'
+    );
   }
 
   const userFound = await usersController.checkEmail(email);
@@ -32,9 +33,10 @@ router.post('/signup', async (req, res) => {
       email: newUser.email,
     });
   } else {
-    return res.status(409).json({
-      error: 'Un utilisateur utilisant cette adresse email est déjà enregistré',
-    });
+    throw new ConflictError(
+      'Conflit',
+      'Un utilisateur utilisant cette adresse email est déjà enregistré'
+    );
   }
 });
 
