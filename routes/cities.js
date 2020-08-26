@@ -4,9 +4,11 @@ const citiesController = require('../controllers/cities');
 
 const router = express.Router();
 
+const { CREATED } = require('../helpers/status_codes');
+
 router.get('/cities', async (req, res) => {
   const citiesFound = await citiesController.getCities();
-  res.status(201).json(citiesFound);
+  res.status(CREATED).json(citiesFound);
 });
 
 module.exports = router;

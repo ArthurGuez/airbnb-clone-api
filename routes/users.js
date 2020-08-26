@@ -5,6 +5,7 @@ const jwtUtils = require('../utils/jwt.utils');
 const UnauthorizedError = require('../helpers/errors/unauthorized_error');
 const BadRequestError = require('../helpers/errors/bad_request_error');
 const ConflictError = require('../helpers/errors/conflict_error');
+const { OK, CREATED } = require('../helpers/status_codes');
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.post('/signup', async (req, res) => {
   if (userFound === null) {
     const newUser = await usersController.addUser(req.body);
 
-    res.status(201).json({
+    res.status(CREATED).json({
       role: newUser.role,
       first_name: newUser.first_name,
       last_name: newUser.last_name,
@@ -48,7 +49,7 @@ router.post('/signin', async (req, res) => {
   if (userFound) {
     const isIdentified = await usersController.checkPassword(password, userFound.password);
     if (isIdentified) {
-      res.status(200).json({
+      res.status(OK).json({
         token: jwtUtils.genToken(userFound),
         user: {
           role: userFound.role,

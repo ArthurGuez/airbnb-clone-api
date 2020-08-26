@@ -7,6 +7,7 @@ const authMid = require('../utils/jwt.utils');
 const NotFoundError = require('../helpers/errors/not_found_error');
 const ForbiddenError = require('../helpers/errors/forbidden_error');
 const BadRequestError = require('../helpers/errors/bad_request_error');
+const { OK, CREATED, NO_CONTENT } = require('../helpers/status_codes');
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/places', async (req, res) => {
   if (req.query.city) {
     const cityFound = await citiesController.getCityByName(req.query.city);
     if (!cityFound) {
-      return res.status(200).json([]);
+      return res.status(OK).json([]);
     }
     const placesFound = await placesController.getPlacesByCity(cityFound.id);
     const alteredPlacesFound = placesFound.map((placeFound) => {
@@ -32,7 +33,7 @@ router.get('/places', async (req, res) => {
 
       return alteredPlaceFound;
     });
-    return res.status(200).json(alteredPlacesFound);
+    return res.status(OK).json(alteredPlacesFound);
   }
 
   const placesFound = await placesController.getPlaces();
@@ -51,7 +52,7 @@ router.get('/places', async (req, res) => {
 
     return alteredPlaceFound;
   });
-  return res.status(200).json(alteredPlacesFound);
+  return res.status(OK).json(alteredPlacesFound);
 });
 
 router.get('/places/:placeId', async (req, res) => {
@@ -60,7 +61,7 @@ router.get('/places/:placeId', async (req, res) => {
     throw new NotFoundError();
   }
 
-  return res.status(200).json({
+  return res.status(OK).json({
     id: placeFound.id,
     city: placeFound.City.name,
     name: placeFound.name,
@@ -89,7 +90,7 @@ router.post('/places', authMid.authenticateJWT, async (req, res) => {
   const newPlace = await placesController.addPlace(req.body);
   const cityFound = await citiesController.getCityById(req.body.city_id);
 
-  return res.status(201).json({
+  return res.status(CREATED).json({
     id: newPlace.id,
     city: cityFound.name,
     name: newPlace.name,
@@ -123,7 +124,7 @@ router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
     throw new NotFoundError();
   }
 
-  return res.status(200).json({
+  return res.status(OK).json({
     id: placeUpdated.id,
     city: placeUpdated.City.name,
     name: placeUpdated.name,
@@ -148,7 +149,7 @@ router.delete('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
     throw new NotFoundError();
   }
 
-  return res.status(204).send();
+  return res.status(NO_CONTENT).send();
 });
 
 module.exports = router;

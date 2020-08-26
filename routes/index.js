@@ -17,8 +17,7 @@ router.use(citiesRouter);
 router.use(bookingsRouter);
 
 router.get('/', (req, res) => {
-  res.status(OK);
-  res.json({ message: 'Hello World!' });
+  res.status(OK).json({ message: 'Hello World!' });
 });
 
 module.exports = router;
