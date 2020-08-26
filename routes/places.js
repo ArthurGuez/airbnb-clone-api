@@ -4,6 +4,8 @@ const placesController = require('../controllers/places');
 const citiesController = require('../controllers/cities');
 const authMid = require('../utils/jwt.utils');
 
+const NotFoundError = require('../helpers/errors/not_found_error');
+
 const router = express.Router();
 
 router.get('/places', async (req, res) => {
@@ -53,9 +55,7 @@ router.get('/places', async (req, res) => {
 router.get('/places/:placeId', async (req, res) => {
   const placeFound = await placesController.getPlaceById(req.params.placeId);
   if (!placeFound) {
-    return res.status(404).json({
-      error: "La ressource demandée n'existe pas",
-    });
+    throw new NotFoundError();
   }
 
   return res.status(200).json({
@@ -130,9 +130,7 @@ router.patch('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   const placeUpdated = await placesController.updatePlace(req.body, req.params.placeId);
 
   if (!placeUpdated) {
-    return res.status(404).json({
-      message: "La ressource demandée n'existe pas",
-    });
+    throw new NotFoundError();
   }
 
   return res.status(200).json({
@@ -159,9 +157,7 @@ router.delete('/places/:placeId', authMid.authenticateJWT, async (req, res) => {
   const placeDeleted = await placesController.deletePlace(req.params.placeId);
 
   if (!placeDeleted) {
-    return res.status(404).json({
-      error: "La ressource demandée n'existe pas",
-    });
+    throw new NotFoundError();
   }
 
   return res.status(204).send();
