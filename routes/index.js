@@ -7,6 +7,8 @@ const placesRouter = require('./places');
 const citiesRouter = require('./cities');
 const bookingsRouter = require('./bookings');
 
+const { OK } = require('../helpers/status_codes');
+
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(usersRouter);
@@ -15,13 +17,8 @@ router.use(citiesRouter);
 router.use(bookingsRouter);
 
 router.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello World!' });
-});
-
-router.get('*', (req, res) => {
-  res.status(404).json({
-    error: 'Vous vous êtes trompé de route !',
-  });
+  res.status(OK);
+  res.json({ message: 'Hello World!' });
 });
 
 module.exports = router;
