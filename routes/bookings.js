@@ -7,6 +7,8 @@ const NotFoundError = require('../helpers/errors/not_found_error');
 const ForbiddenError = require('../helpers/errors/forbidden_error');
 const BadRequestError = require('../helpers/errors/bad_request_error');
 
+const { OK, CREATED, NO_CONTENT } = require('../helpers/status_codes');
+
 const router = express.Router();
 
 router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
@@ -67,7 +69,7 @@ router.post('/bookings', authMid.authenticateJWT, async (req, res) => {
   // 201 - La requête est un succès (nouvelle donnée créée en base)
   const newBooking = await bookingsController.addBooking(req.body, userId);
 
-  return res.status(201).json(newBooking);
+  return res.status(CREATED).json(newBooking);
 });
 
 router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
@@ -87,7 +89,7 @@ router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
 
   // 204 - Si la requête est un succès (suppression de la donnée en base)
   await bookingsController.deleteBooking(id);
-  return res.status(204).json();
+  return res.status(NO_CONTENT).json();
 });
 
 router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {
@@ -95,7 +97,7 @@ router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {
   if (req.query.place_id !== undefined) {
     const bookingsFound = await bookingsController.getBookingsByPlace(req.query.place_id);
 
-    res.status(200).json(bookingsFound);
+    res.status(OK).json(bookingsFound);
   } else {
     const { userRole } = req.user;
 
@@ -103,14 +105,14 @@ router.get('/bookings/', authMid.authenticateJWT, async (req, res) => {
       // GET /api/bookings ETQ tourist
       const bookingsFound = await bookingsController.getBookingsTourist(req);
 
-      res.status(200).json(bookingsFound);
+      res.status(OK).json(bookingsFound);
     }
 
     if (userRole === 'host') {
       // GET /api/bookings ETQ host
       const bookingsFound = await bookingsController.getBookingsHost(req);
 
-      res.status(200).json(bookingsFound);
+      res.status(OK).json(bookingsFound);
     }
   }
 });
