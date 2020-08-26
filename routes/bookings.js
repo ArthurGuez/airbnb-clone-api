@@ -3,6 +3,7 @@ const validate = require('uuid-validate');
 
 const authMid = require('../utils/jwt.utils');
 const bookingsController = require('../controllers/bookings');
+const NotFoundError = require('../helpers/errors/not_found_error');
 
 const router = express.Router();
 
@@ -77,17 +78,13 @@ router.delete('/bookings/:id', authMid.authenticateJWT, async (req, res) => {
   // 404 - Si la ressource demandée n'a pas été trouvée
   // Check type d'id n'est pas UUID
   if (!validate(id)) {
-    return res.status(404).json({
-      error: "La ressource demandée n'existe pas",
-    });
+    throw new NotFoundError();
   }
 
   const bookingFound = await bookingsController.getBookingById(id);
 
   if (!bookingFound) {
-    return res.status(404).json({
-      error: "La ressource demandée n'existe pas",
-    });
+    throw new NotFoundError();
   }
 
   // 204 - Si la requête est un succès (suppression de la donnée en base)

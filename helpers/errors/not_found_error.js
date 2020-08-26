@@ -1,7 +1,11 @@
 const { NOT_FOUND } = require('../status_codes');
 
 module.exports = class NotFoundError extends Error {
-  constructor(title, description, ...params) {
+  constructor(
+    title = 'Ressource introuvable',
+    description = "La ressource demandée n'existe pas",
+    ...params
+  ) {
     super(...params);
 
     if (Error.captureStackTrace) {

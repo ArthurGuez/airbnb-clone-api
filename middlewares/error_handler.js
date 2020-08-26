@@ -1,6 +1,6 @@
-module.exports = (error, request, response, next) => {
+module.exports = (error, req, res, next) => {
   const { title, description } = error;
-  response.status(error.status).json({
+  res.status(error.status).json({
     title,
     description,
   });
