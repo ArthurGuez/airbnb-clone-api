@@ -9,6 +9,25 @@ const { OK, CREATED } = require('../helpers/status_codes');
 
 const router = express.Router();
 
+router.get('/me', jwtUtils.authenticateJWT, async (req, res) => {
+  const { userId } = req.user;
+
+  const userFound = await usersController.getUserById(userId);
+
+  if (userFound) {
+    res.status(OK).json({
+      user: {
+        role: userFound.role,
+        first_name: userFound.first_name,
+        last_name: userFound.last_name,
+        email: userFound.email,
+      },
+    });
+  } else {
+    throw new UnauthorizedError('Accès refusé', "Nous n'avons pas réussi à vous identifier");
+  }
+});
+
 router.post('/signup', async (req, res) => {
   const { first_name: firstName, email } = req.body;
 

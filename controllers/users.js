@@ -21,6 +21,10 @@ module.exports = {
     });
   },
 
+  getUserById: (userId) => {
+    return User.findByPK(userId);
+  },
+
   checkEmail: (userEmail) => {
     return User.findOne({
       attributes: ['email'],

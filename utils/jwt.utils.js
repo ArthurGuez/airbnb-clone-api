@@ -11,10 +11,10 @@ module.exports = {
         userId: userData.id,
         userRole: userData.role,
       },
-      secret
-      /* {
-        expiresIn: '1h',
-      } */
+      secret,
+      {
+        expiresIn: '7d',
+      }
     );
   },
 
