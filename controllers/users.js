@@ -22,7 +22,7 @@ module.exports = {
   },
 
   getUserById: (userId) => {
-    return User.findByPK(userId);
+    return User.findByPk(userId);
   },
 
   checkEmail: (userEmail) => {
